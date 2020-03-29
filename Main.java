@@ -11,7 +11,12 @@
      E,
      F,
      G,
-     H
+     H;
+     public String valueOfInt(){
+       for(int i=0; i<X.values().length; i++){
+           if(X.values()[i].co)
+       }
+     }
  }
  public class Main {
     public static Board myOthelloBoard= new Board();
@@ -31,6 +36,7 @@
         while(myOthelloBoard.gameEnd()==false){
             //first move to black pawn
             playerBlack.nextMoveUpdate(myOthelloBoard);
+            System.out.printf("TURN OF BLACK: \n");
             myOthelloBoard.printBoard(playerBlack.getMovesAvailable(), playerBlack.getTypeOfPlayer());
             boolean validInput=false;
             int numOfWrongInputs=0;
@@ -58,8 +64,12 @@
                 numOfWrongInputs++;
             }while(!playerBlack.addDisk(newX, newY, myOthelloBoard));
 
-            //-------
+
+
+
+            //------------------------------
             playerWhite.nextMoveUpdate(myOthelloBoard);
+            System.out.println("TORN OF WHITE:");
             myOthelloBoard.printBoard(playerWhite.getMovesAvailable(), playerWhite.getTypeOfPlayer());
             validInput=false;
             numOfWrongInputs=0;

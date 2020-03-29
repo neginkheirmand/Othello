@@ -46,6 +46,8 @@ public class Player {
             System.out.println("cannot add disk in this block");
             return false;
         }
+        System.out.println("\ngonna add disk for player " + this.typeOfPlayer);
+
         othelloBoard.addDiskToBoard(x, y, this.typeOfPlayer);
         return true;
     }

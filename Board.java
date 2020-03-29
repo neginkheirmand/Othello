@@ -159,7 +159,7 @@ public class Board {
         //daimeter backward(\)
         otherTypeInBetween=0;
         if(y>0&&x>0) {
-            for (int i = y - 1, j = x - 1; j < SIZE && i < SIZE; i--, j--) {
+            for (int i = y - 1, j = x - 1; j >=0 && i >= 0; i--, j--) {
                 if (gameBoard.get(i).get(j).isFull() == false) {
                     break;
                 } else if (gameBoard.get(i).get(j).giveType().equals(typePlayer.name()) == false) {
@@ -298,6 +298,7 @@ public class Board {
                 } else if (gameBoard.get(y).get(j).giveType().equals(typeOfPlayer.name()) == false) {
                     //unequal TYPEs
                     numberOfBlocksToChange++;
+                    System.out.printf("unequal type is:   x = "+(j+1)+"  y= "+(y+1));
                 } else {
                     //equal TYPEs
                     if(numberOfBlocksToChange>0){
@@ -317,11 +318,12 @@ public class Board {
                 }
                 else if(gameBoard.get(y).get(j).giveType().equals(typeOfPlayer.name()) == false){
                     //unequal TYPEs
+                    System.out.printf("unequal type is:   x = "+(j+1)+"  y= "+(y+1));
                     numberOfBlocksToChange++;
                 }else {
                     //equal TYPEs
                     if(numberOfBlocksToChange>0){
-                        color(x, y, numberOfBlocksToChange, typeOfPlayer,1);
+                        color(x-1-numberOfBlocksToChange, y, numberOfBlocksToChange, typeOfPlayer,1);
                     }
                     break;
                 }
@@ -337,6 +339,7 @@ public class Board {
                     break;
                 } else if (gameBoard.get(j).get(x).giveType().equals(typeOfPlayer.name()) == false) {
                     //unequal TYPEs
+                    System.out.printf("unequal type is:   y = "+(j+1)+"  x= "+(x+1));
                     numberOfBlocksToChange++;
                 } else {
                     if(numberOfBlocksToChange>0){
@@ -355,10 +358,11 @@ public class Board {
                     break;
                 } else if (gameBoard.get(j).get(x).giveType().equals(typeOfPlayer.name()) == false) {
                     //unequal TYPEs
+                    System.out.printf("unequal type is:   y = "+(j+1)+"  x= "+(x+1));
                     numberOfBlocksToChange++;
                 } else {
                     if(numberOfBlocksToChange>0){
-                        color(x, y, numberOfBlocksToChange, typeOfPlayer, 2);
+                        color(x, y-1-numberOfBlocksToChange, numberOfBlocksToChange, typeOfPlayer, 2);
                     }
                     break;
                 }
@@ -374,6 +378,7 @@ public class Board {
                     break;
                 } else if (gameBoard.get(i).get(j).giveType().equals(typeOfPlayer.name()) == false) {
                     //unequal TYPEs
+                    System.out.printf("unequal type is:   y = "+(i+1)+"  x= "+(j+1));
                     numberOfBlocksToChange++;
                 } else {
                     if(numberOfBlocksToChange>0){
@@ -392,10 +397,11 @@ public class Board {
                     break;
                 } else if (gameBoard.get(i).get(j).giveType().equals(typeOfPlayer.name()) == false) {
                     //unequal TYPEs
+                    System.out.printf("unequal type is:   y = "+(i+1)+"  x= "+(j+1));
                     numberOfBlocksToChange++;
                 } else {
                     if(numberOfBlocksToChange>0){
-                        color(x, y, numberOfBlocksToChange, typeOfPlayer, 3);
+                        color(x-1-numberOfBlocksToChange, y-1-numberOfBlocksToChange, numberOfBlocksToChange, typeOfPlayer, 3);
                     }
                     break;
                 }
@@ -411,10 +417,11 @@ public class Board {
                     break;
                 } else if (gameBoard.get(i).get(j).giveType().equals(typeOfPlayer.name()) == false) {
                     //unequal TYPEs
+                    System.out.printf("unequal type is:   y = "+(i+1)+"  x= "+(j+1));
                     numberOfBlocksToChange++;
                 } else {
                     if(numberOfBlocksToChange>0){
-                        color(x, y, numberOfBlocksToChange, typeOfPlayer, 4);
+                        color(x-1-numberOfBlocksToChange, y+1+numberOfBlocksToChange, numberOfBlocksToChange, typeOfPlayer, 4);
                     }
                     break;
                 }
@@ -429,6 +436,7 @@ public class Board {
                     break;
                 } else if (gameBoard.get(i).get(j).giveType().equals(typeOfPlayer.name()) == false) {
                     //unequal TYPEs
+                    System.out.printf("unequal type is:   y = "+(i+1)+"  x= "+X.valueOf(j+"")+"\n");
                     numberOfBlocksToChange++;
                 } else {
                     if(numberOfBlocksToChange>0){
@@ -456,6 +464,7 @@ public class Board {
         else if(typeOfIteration==2){
             for(int j=y1+1 ; j<y1+1+numBlocksToChange; j++){
                 gameBoard.get(j).get(x1).changeDisk();
+                System.out.printf("\ngonna change the color of x= "+X.valueOf(x1+"")+"  y="+(j+1)+"\n");
             }
         }
 
