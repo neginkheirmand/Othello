@@ -1,4 +1,5 @@
  package ir.ac.aut;
+
 import java.util.ArrayList;
 
 public class Board {
@@ -155,7 +156,7 @@ public class Board {
             }
         }
 
-        //daimeter backward(/)
+        //daimeter backward(\)
         otherTypeInBetween=0;
         if(y>0&&x>0) {
             for (int i = y - 1, j = x - 1; j < SIZE && i < SIZE; i--, j--) {
@@ -174,7 +175,7 @@ public class Board {
         }
 
 
-        //diameter forward(\)
+        //diameter forward(/)
         if(x>0&&y<SIZE-1){
             for(int i=y+1 ,j=x-1;i<SIZE&&j>=0; i++, j-- ){
                 if (gameBoard.get(i).get(j).isFull() == false) {
@@ -191,7 +192,7 @@ public class Board {
             }
         }
 
-        //diameter backward(\)
+        //diameter backward(/)
         if(y>0&&x<SIZE-1){
             for(int i=y-1 ,j=x+1;j<SIZE&&i>=0; i--, j++ ){
                 if (gameBoard.get(i).get(j).isFull() == false) {
@@ -268,7 +269,6 @@ public class Board {
 
     }
 
-
     private boolean isMoveBlock(int y, int x, ArrayList<Place> moves){
         for(int i=0; i<moves.size(); i++){
             if(moves.get(i).getX()==x && moves.get(i).getY()==y){
@@ -282,12 +282,14 @@ public class Board {
     public void addDiskToBoard(int x, int y, TYPE typeOfPlayer){
         //we are sure that this player can move a disk to this block, it was checked before callling this method
         gameBoard.get(y).get(x).fillBlock(typeOfPlayer);
-//        updateBoard(x, y, typeOfPlayer);
+        updateBoard(x, y, typeOfPlayer);
     }
 
     private void updateBoard(int x, int y, TYPE typeOfPlayer){
 
-        //----------------------
+
+        int numberOfBlocksToChange=0;
+        //----------------------(Type of iteration: 1)
         //horizontally forward
         if(x+1<SIZE) {
             for (int j = x + 1; j < SIZE; j++) {
@@ -295,15 +297,19 @@ public class Board {
                     break;
                 } else if (gameBoard.get(y).get(j).giveType().equals(typeOfPlayer.name()) == false) {
                     //unequal TYPEs
-                    gameBoard.get(y).get(j).fillBlock(typeOfPlayer);
+                    numberOfBlocksToChange++;
                 } else {
                     //equal TYPEs
+                    if(numberOfBlocksToChange>0){
+                        color(x, y, numberOfBlocksToChange, typeOfPlayer,1);
+                    }
                     break;
                 }
             }
         }
 
         //horizontally backwards
+        numberOfBlocksToChange=0;
         if(x>0) {
             for (int j = x-1; j>=0; j--){
                 if(gameBoard.get(y).get(j).isFull() == false){
@@ -311,102 +317,161 @@ public class Board {
                 }
                 else if(gameBoard.get(y).get(j).giveType().equals(typeOfPlayer.name()) == false){
                     //unequal TYPEs
-                    gameBoard.get(y).get(j).fillBlock(typeOfPlayer);
+                    numberOfBlocksToChange++;
                 }else {
                     //equal TYPEs
+                    if(numberOfBlocksToChange>0){
+                        color(x, y, numberOfBlocksToChange, typeOfPlayer,1);
+                    }
                     break;
                 }
             }
         }
 
-
-        //----------------------
+        //----------------------(2)
         //vertically forward
+        numberOfBlocksToChange=0;
         if(y<SIZE-1){
             for (int j = y + 1; j < SIZE; j++) {
                 if (gameBoard.get(j).get(x).isFull() == false) {
                     break;
                 } else if (gameBoard.get(j).get(x).giveType().equals(typeOfPlayer.name()) == false) {
                     //unequal TYPEs
-                    gameBoard.get(j).get(x).fillBlock(typeOfPlayer);
+                    numberOfBlocksToChange++;
                 } else {
+                    if(numberOfBlocksToChange>0){
+                        color(x, y, numberOfBlocksToChange, typeOfPlayer, 2);
+                    }
                     break;
                 }
             }
         }
 
-        //vertically backward
+        //vertically backward(
+        numberOfBlocksToChange=0;
         if(y>0) {
             for (int j = y - 1; j >=0; j--) {
                 if (gameBoard.get(j).get(x).isFull() == false) {
                     break;
                 } else if (gameBoard.get(j).get(x).giveType().equals(typeOfPlayer.name()) == false) {
                     //unequal TYPEs
-                    gameBoard.get(j).get(x).fillBlock(typeOfPlayer);
+                    numberOfBlocksToChange++;
                 } else {
+                    if(numberOfBlocksToChange>0){
+                        color(x, y, numberOfBlocksToChange, typeOfPlayer, 2);
+                    }
                     break;
                 }
             }
         }
 
-
-        //----------------------
-        //daimeter forward(/)
+        //----------------------(3)
+        //daimeter forward(\)
+        numberOfBlocksToChange=0;
         if(y+1<SIZE&&x+1<SIZE) {
             for (int i = y + 1, j = x + 1; j < SIZE && i < SIZE; i++, j++) {
                 if (gameBoard.get(i).get(j).isFull() == false) {
                     break;
                 } else if (gameBoard.get(i).get(j).giveType().equals(typeOfPlayer.name()) == false) {
                     //unequal TYPEs
-                    gameBoard.get(i).get(j).fillBlock(typeOfPlayer);
+                    numberOfBlocksToChange++;
                 } else {
+                    if(numberOfBlocksToChange>0){
+                        color(x, y, numberOfBlocksToChange, typeOfPlayer, 3);
+                    }
                     break;
                 }
             }
         }
 
-        //daimeter backward(/)
+        //daimeter backward(\)
+        numberOfBlocksToChange=0;
         if(y>0&&x>0) {
             for (int i = y - 1, j = x - 1; j < SIZE && i < SIZE; i--, j--) {
                 if (gameBoard.get(i).get(j).isFull() == false) {
                     break;
                 } else if (gameBoard.get(i).get(j).giveType().equals(typeOfPlayer.name()) == false) {
                     //unequal TYPEs
-                    gameBoard.get(i).get(j).fillBlock(typeOfPlayer);
+                    numberOfBlocksToChange++;
                 } else {
+                    if(numberOfBlocksToChange>0){
+                        color(x, y, numberOfBlocksToChange, typeOfPlayer, 3);
+                    }
                     break;
                 }
             }
         }
 
-
-        //---------------------
-        //diameter forward(\)
+        //---------------------(4)
+        //diameter forward(/)
+        numberOfBlocksToChange=0;
         if(x>0&&y<SIZE-1){
             for(int i=y+1 ,j=x-1;i<SIZE&&j>=0; i++, j-- ){
                 if (gameBoard.get(i).get(j).isFull() == false) {
                     break;
                 } else if (gameBoard.get(i).get(j).giveType().equals(typeOfPlayer.name()) == false) {
                     //unequal TYPEs
-                    gameBoard.get(i).get(j).fillBlock(typeOfPlayer);
+                    numberOfBlocksToChange++;
                 } else {
+                    if(numberOfBlocksToChange>0){
+                        color(x, y, numberOfBlocksToChange, typeOfPlayer, 4);
+                    }
                     break;
                 }
             }
         }
 
-        //diameter backward(\)
+        //diameter backward(/)
+        numberOfBlocksToChange=0;
         if(y>0&&x<SIZE-1){
             for(int i=y-1 ,j=x+1;j<SIZE&&i>=0; i--, j++ ){
                 if (gameBoard.get(i).get(j).isFull() == false) {
                     break;
                 } else if (gameBoard.get(i).get(j).giveType().equals(typeOfPlayer.name()) == false) {
                     //unequal TYPEs
-                    gameBoard.get(i).get(j).fillBlock(typeOfPlayer);
+                    numberOfBlocksToChange++;
                 } else {
+                    if(numberOfBlocksToChange>0){
+                        color(x, y, numberOfBlocksToChange, typeOfPlayer, 4);
+                    }
                     break;
                 }
             }
         }
+
+        return;
+    }
+
+    private void color(int x1, int y1,int numBlocksToChange, TYPE typeDisk, int typeOfIteration ){
+        //the x1 is the argument x of the disk with type declared before and x2 is where it should end
+
+        //  <-->
+        if(typeOfIteration==1){
+            for(int i=x1+1; i<x1+numBlocksToChange+1; i++){
+                gameBoard.get(y1).get(i).changeDisk();
+            }
+        }
+
+        //  |
+        else if(typeOfIteration==2){
+            for(int j=y1+1 ; j<y1+1+numBlocksToChange; j++){
+                gameBoard.get(j).get(x1).changeDisk();
+            }
+        }
+
+        //  \
+        else if(typeOfIteration==3){
+            for(int i=x1+1, j=y1+1; i<x1+1+numBlocksToChange; i++,j++){
+                gameBoard.get(j).get(i).changeDisk();
+            }
+        }
+
+        //   /
+        else if(typeOfIteration==4){
+            for(int i=x1, j=y1; i<x1+1+numBlocksToChange; i++, j--){
+                gameBoard.get(j).get(i).changeDisk();
+            }
+        }
+        return;
     }
 }

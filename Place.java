@@ -36,6 +36,15 @@ public class Place {
         return;
     }
 
+    public void changeDisk(){
+        if(this.type==TYPE.WHITE){
+            this.type=TYPE.BLACK;
+        }else{
+            type=TYPE.WHITE;
+        }
+        return;
+    }
+
     public void printInfo(){
         System.out.println("this is my x "+ x+ "this is my y "+y);
         System.out.println("i am full: "+ isFull);

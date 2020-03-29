@@ -23,8 +23,6 @@ public class Player {
 
     public void nextMoveUpdate(Board gameBoard){
         movesAvailable=gameBoard.updateAvailableMoves(typeOfPlayer);
-        System.out.println("ARRAY NEXT MOVE HAYE AVAILABLE BARAYE PLAYER:  " +typeOfPlayer+"  UPDATE SHOD");
-        System.out.println("tedad khunehayi ke black mitune bere hastesh: "+ movesAvailable.size());
         return;
     }
     public void printInfo(){
@@ -48,9 +46,7 @@ public class Player {
             System.out.println("cannot add disk in this block");
             return false;
         }
-        System.out.printf("should be able to do this move, gonna try it:\n");
         othelloBoard.addDiskToBoard(x, y, this.typeOfPlayer);
-        System.out.printf("tried it out and it worked?? check it out:\n");
         return true;
     }
 }
