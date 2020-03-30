@@ -30,6 +30,11 @@ public class Place {
         return isFull;
     }
 
+    public void  hollow(){
+        isFull=false;
+        return;
+    }
+    
     public void fillBlock(TYPE typeOfBlock){
         isFull=true;
         type=typeOfBlock;
@@ -37,10 +42,12 @@ public class Place {
     }
 
     public void changeDisk(){
-        if(this.type==TYPE.WHITE){
-            this.type=TYPE.BLACK;
-        }else{
-            type=TYPE.WHITE;
+        if(isFull==true {
+            if (this.type == TYPE.WHITE) {
+                this.type = TYPE.BLACK;
+            } else {
+                type = TYPE.WHITE;
+            }
         }
         return;
     }
