@@ -8,9 +8,10 @@ import java.util.ArrayList;
 public class Player {
     private final TYPE typeOfPlayer;
     private ArrayList<Place> movesAvailable;
-
+    private long timer;
     public Player(TYPE typeOfPlayer){
         this.typeOfPlayer=typeOfPlayer;
+        timer=0;
     }
 
     public ArrayList<Place> getMovesAvailable(){

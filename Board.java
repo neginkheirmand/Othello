@@ -1,12 +1,14 @@
  package ir.ac.aut;
 
 import java.util.ArrayList;
+import java.util.Date;
 
-public class Board {
+ public class Board {
     private ArrayList<ArrayList<Place>> gameBoard;
     final int SIZE;
 
     public Board(){
+        Date timer= new Date(0);
         SIZE=8;
         gameBoard=new ArrayList<ArrayList<Place>>();
         for(int i=0; i<SIZE; i++){
@@ -524,8 +526,10 @@ public class Board {
         if(numHollowBlocks!=0) {
             System.out.println("number of hollow blocks are: "+numHollowBlocks);
         }
+        System.out.println("timer: " );
         System.out.println("number of White blocks: "+numWhiteBlocks);
-        System.out.println("number of Black blocks: "+numBlackBlocks);
+        System.out.println("\033[0;31m"+"timer: " );
+        System.out.println("number of Black blocks: "+numBlackBlocks+"\033[0m");
         return;
     }
 }
