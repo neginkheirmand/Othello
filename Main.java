@@ -21,6 +21,8 @@
        return "";
      }
  }
+
+
  public class Main {
     public static Board myOthelloBoard= new Board();
 //    public static int size=8;

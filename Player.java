@@ -22,6 +22,7 @@ public class Player {
     }
 
     public void nextMoveUpdate(Board gameBoard){
+        System.out.println("updating the next moves for the player: "+this.typeOfPlayer);
         movesAvailable=gameBoard.updateAvailableMoves(typeOfPlayer);
         return;
     }

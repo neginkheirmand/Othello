@@ -56,6 +56,7 @@ public class Board {
     }
 
     private boolean canMoveTo(int y, int x, TYPE typePlayer){
+    //X and Y passed to this method are from (0, SIZE-1)
 
         //----------------------
         int otherTypeInBetween=0;
@@ -70,6 +71,7 @@ public class Board {
                 } else {
                     //equal TYPEs
                     if (otherTypeInBetween > 0) {
+                        System.out.println("\033[1;36m"+"--------1---the ones from before were accepted::     x= "+X.valueOfInt(x)+  " y= "+(y+1)+"is movable "+"\033[0m");
                         return true;
                     }
                     break;
@@ -90,6 +92,7 @@ public class Board {
                 }else {
                     //equal TYPEs
                     if(otherTypeInBetween>0){
+                        System.out.println("\033[1;36m"+"--------2---the ones from before were accepted::     x= "+X.valueOfInt(x)+  " y= "+(y+1)+"is movable "+"\033[0m");
                         return true;
                     }
                     break;
@@ -110,6 +113,7 @@ public class Board {
                     otherTypeInBetween++;
                 } else {
                     if (otherTypeInBetween > 0) {
+                        System.out.println("\033[1;36m"+"--------3---the ones from before were accepted::     x= "+X.valueOfInt(x)+  " y= "+(y+1)+"is movable "+"\033[0m");
                         return true;
                     }
                     break;
@@ -128,6 +132,7 @@ public class Board {
                     otherTypeInBetween++;
                 } else {
                     if (otherTypeInBetween > 0) {
+                        System.out.println("\033[1;36m"+"--------4---the ones from before were accepted::     x= "+X.valueOfInt(x)+  " y= "+(y+1)+"is movable "+"\033[0m");
                         return true;
                     }
                     break;
@@ -149,8 +154,10 @@ public class Board {
                     otherTypeInBetween++;
                 } else {
                     if (otherTypeInBetween > 0) {
+                        System.out.println("\033[1;36m"+"--------5---the ones from before were accepted::     x= "+X.valueOfInt(x)+  " y= "+(y+1)+"is movable "+"\033[0m");
                         return true;
                     }
+
                     break;
                 }
             }
@@ -167,6 +174,7 @@ public class Board {
                     otherTypeInBetween++;
                 } else {
                     if (otherTypeInBetween > 0) {
+                        System.out.println("\033[1;36m"+"--------6---the ones from before were accepted::     x= "+X.valueOfInt(x)+  " y= "+(y+1)+"is movable "+"\033[0m");
                         return true;
                     }
                     break;
@@ -175,7 +183,8 @@ public class Board {
         }
 
 
-        //diameter forward(/)
+        //diameter backward(/)
+        otherTypeInBetween=0;
         if(x>0&&y<SIZE-1){
             for(int i=y+1 ,j=x-1;i<SIZE&&j>=0; i++, j-- ){
                 if (gameBoard.get(i).get(j).isFull() == false) {
@@ -185,6 +194,7 @@ public class Board {
                     otherTypeInBetween++;
                 } else {
                     if (otherTypeInBetween > 0) {
+                        System.out.println("\033[1;36m"+"--------7---the ones from before were accepted::     x= "+X.valueOfInt(x)+  " y= "+(y+1)+"is movable "+"\033[0m");
                         return true;
                     }
                     break;
@@ -193,6 +203,7 @@ public class Board {
         }
 
         //diameter backward(/)
+        otherTypeInBetween=0;
         if(y>0&&x<SIZE-1){
             for(int i=y-1 ,j=x+1;j<SIZE&&i>=0; i--, j++ ){
                 if (gameBoard.get(i).get(j).isFull() == false) {
@@ -202,6 +213,7 @@ public class Board {
                     otherTypeInBetween++;
                 } else {
                     if (otherTypeInBetween > 0) {
+                        System.out.println("\033[1;36m"+"--------8---the ones from before were accepted::     x= "+X.valueOfInt(x)+  " y= "+(y+1)+"is movable "+"\033[0m");
                         return true;
                     }
                     break;
