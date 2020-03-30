@@ -8,7 +8,7 @@ import java.util.Date;
     final int SIZE;
 
     public Board(){
-        Date timer= new Date(0);
+//        Date timer= new Date(0);
         SIZE=8;
         gameBoard=new ArrayList<ArrayList<Place>>();
         for(int i=0; i<SIZE; i++){
@@ -73,7 +73,7 @@ import java.util.Date;
                 } else {
                     //equal TYPEs
                     if (otherTypeInBetween > 0) {
-                        System.out.println("\033[1;36m"+"--------1---the ones from before were accepted::     x= "+X.valueOfInt(x)+  " y= "+(y+1)+"is movable "+"\033[0m");
+//                        System.out.println("\033[1;36m"+"--------1---the ones from before were accepted::     x= "+X.valueOfInt(x)+  " y= "+(y+1)+"is movable "+"\033[0m");
                         return true;
                     }
                     break;
@@ -94,7 +94,7 @@ import java.util.Date;
                 }else {
                     //equal TYPEs
                     if(otherTypeInBetween>0){
-                        System.out.println("\033[1;36m"+"--------2---the ones from before were accepted::     x= "+X.valueOfInt(x)+  " y= "+(y+1)+"is movable "+"\033[0m");
+//                        System.out.println("\033[1;36m"+"--------2---the ones from before were accepted::     x= "+X.valueOfInt(x)+  " y= "+(y+1)+"is movable "+"\033[0m");
                         return true;
                     }
                     break;
@@ -115,7 +115,7 @@ import java.util.Date;
                     otherTypeInBetween++;
                 } else {
                     if (otherTypeInBetween > 0) {
-                        System.out.println("\033[1;36m"+"--------3---the ones from before were accepted::     x= "+X.valueOfInt(x)+  " y= "+(y+1)+"is movable "+"\033[0m");
+//                        System.out.println("\033[1;36m"+"--------3---the ones from before were accepted::     x= "+X.valueOfInt(x)+  " y= "+(y+1)+"is movable "+"\033[0m");
                         return true;
                     }
                     break;
@@ -134,7 +134,7 @@ import java.util.Date;
                     otherTypeInBetween++;
                 } else {
                     if (otherTypeInBetween > 0) {
-                        System.out.println("\033[1;36m"+"--------4---the ones from before were accepted::     x= "+X.valueOfInt(x)+  " y= "+(y+1)+"is movable "+"\033[0m");
+//                        System.out.println("\033[1;36m"+"--------4---the ones from before were accepted::     x= "+X.valueOfInt(x)+  " y= "+(y+1)+"is movable "+"\033[0m");
                         return true;
                     }
                     break;
@@ -156,7 +156,7 @@ import java.util.Date;
                     otherTypeInBetween++;
                 } else {
                     if (otherTypeInBetween > 0) {
-                        System.out.println("\033[1;36m"+"--------5---the ones from before were accepted::     x= "+X.valueOfInt(x)+  " y= "+(y+1)+"is movable "+"\033[0m");
+//                        System.out.println("\033[1;36m"+"--------5---the ones from before were accepted::     x= "+X.valueOfInt(x)+  " y= "+(y+1)+"is movable "+"\033[0m");
                         return true;
                     }
 
@@ -176,7 +176,7 @@ import java.util.Date;
                     otherTypeInBetween++;
                 } else {
                     if (otherTypeInBetween > 0) {
-                        System.out.println("\033[1;36m"+"--------6---the ones from before were accepted::     x= "+X.valueOfInt(x)+  " y= "+(y+1)+"is movable "+"\033[0m");
+//                        System.out.println("\033[1;36m"+"--------6---the ones from before were accepted::     x= "+X.valueOfInt(x)+  " y= "+(y+1)+"is movable "+"\033[0m");
                         return true;
                     }
                     break;
@@ -196,7 +196,7 @@ import java.util.Date;
                     otherTypeInBetween++;
                 } else {
                     if (otherTypeInBetween > 0) {
-                        System.out.println("\033[1;36m"+"--------7---the ones from before were accepted::     x= "+X.valueOfInt(x)+  " y= "+(y+1)+"is movable "+"\033[0m");
+//                        System.out.println("\033[1;36m"+"--------7---the ones from before were accepted::     x= "+X.valueOfInt(x)+  " y= "+(y+1)+"is movable "+"\033[0m");
                         return true;
                     }
                     break;
@@ -215,17 +215,13 @@ import java.util.Date;
                     otherTypeInBetween++;
                 } else {
                     if (otherTypeInBetween > 0) {
-                        System.out.println("\033[1;36m"+"--------8---the ones from before were accepted::     x= "+X.valueOfInt(x)+  " y= "+(y+1)+"is movable "+"\033[0m");
+//                        System.out.println("\033[1;36m"+"--------8---the ones from before were accepted::     x= "+X.valueOfInt(x)+  " y= "+(y+1)+"is movable "+"\033[0m");
                         return true;
                     }
                     break;
                 }
             }
         }
-
-
-
-
         return false;
     }
 
@@ -296,9 +292,9 @@ import java.util.Date;
     public void addDiskToBoard(int x, int y, TYPE typeOfPlayer){
         //we are sure that this player can move a disk to this block, it was checked before callling this method
         gameBoard.get(y).get(x).fillBlock(typeOfPlayer);
-        System.out.printf("just added a disk for player "+typeOfPlayer.name()+" now we have to update the othello board\n");
+//        System.out.printf("just added a disk for player "+typeOfPlayer.name()+" now we have to update the othello board\n");
         updateBoard(x, y, typeOfPlayer);
-        System.out.printf("the othello board was updated:\n");
+//        System.out.printf("the othello board was updated:\n");
     }
 
     private void updateBoard(int x, int y, TYPE typeOfPlayer){
@@ -461,7 +457,6 @@ import java.util.Date;
                 }
             }
         }
-        System.out.println("gona go out of this function oucyueghdvegqhvcgg");
 
         return;
     }
@@ -473,7 +468,7 @@ import java.util.Date;
         if(typeOfIteration==1){
             for(int i=x1+1; i<x1+numBlocksToChange+1; i++){
                 gameBoard.get(y1).get(i).changeDisk();
-                System.out.printf("*1*)changed the color of x= "+X.valueOfInt(i)+"  y="+(y1)+"\n");
+//                System.out.printf("*1*)changed the color of x= "+X.valueOfInt(i)+"  y="+(y1)+"\n");
             }
             return;
         }
@@ -482,8 +477,7 @@ import java.util.Date;
         else if(typeOfIteration==2){
             for(int j=y1+1 ; j<y1+1+numBlocksToChange; j++){
                 gameBoard.get(j).get(x1).changeDisk();
-                System.out.printf("*2*)changed the color of x= "+X.valueOfInt(x1)+"  y="+(j+1)+"\n");
-
+//                System.out.printf("*2*)changed the color of x= "+X.valueOfInt(x1)+"  y="+(j+1)+"\n");
             }
             return;
         }
@@ -492,7 +486,7 @@ import java.util.Date;
         else if(typeOfIteration==3){
             for(int i=x1+1, j=y1+1; i<x1+1+numBlocksToChange; i++,j++) {
                 gameBoard.get(j).get(i).changeDisk();
-                System.out.printf("*3*)--- %d --changed the color of x= " + X.valueOfInt(i) + "  y=" + (j + 1) + "  NUMBER OF BLOCKS TO BE CHANGED: %d\n", i - x1, numBlocksToChange);
+//                System.out.printf("*3*)--- %d --changed the color of x= " + X.valueOfInt(i) + "  y=" + (j + 1) + "  NUMBER OF BLOCKS TO BE CHANGED: %d\n", i - x1, numBlocksToChange);
             }
             return;
         }
@@ -501,7 +495,7 @@ import java.util.Date;
         else if(typeOfIteration==4){
             for(int i=x1+1, j=y1-1; i<x1+1+numBlocksToChange; i++, j--){
                 gameBoard.get(j).get(i).changeDisk();
-                System.out.printf("*4*)changed the color of x= "+X.valueOfInt(i)+"  y="+(j+1)+"\n");
+//                System.out.printf("*4*)changed the color of x= "+X.valueOfInt(i)+"  y="+(j+1)+"\n");
             }
             return;
         }
@@ -526,8 +520,14 @@ import java.util.Date;
         if(numHollowBlocks!=0) {
             System.out.println("number of hollow blocks are: "+numHollowBlocks);
         }
+        if(numWhiteBlocks>numBlackBlocks) {
+            System.out.println("\033[1;32m"+"WINNER is :"+"\033[0m");
+        }
         System.out.println("timer: " );
         System.out.println("number of White blocks: "+numWhiteBlocks);
+        if(numBlackBlocks>numWhiteBlocks){
+            System.out.println("\033[1;32m"+"WINNER is :"+"\033[0m");
+        }
         System.out.println("\033[0;31m"+"timer: " );
         System.out.println("number of Black blocks: "+numBlackBlocks+"\033[0m");
         return;

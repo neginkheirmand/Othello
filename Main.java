@@ -111,6 +111,6 @@
 
         System.out.printf("----------------\nend of game--------------\n");
         myOthelloBoard.printBoard(playerBlack.getMovesAvailable(), playerBlack.getTypeOfPlayer());
-
+        myOthelloBoard.printInfo();
     }
 }
