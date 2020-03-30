@@ -12,10 +12,13 @@
      F,
      G,
      H;
-     public String valueOfInt(){
+     public static String valueOfInt(int xNum){
        for(int i=0; i<X.values().length; i++){
-           if(X.values()[i].co)
+           if(X.values()[i].ordinal()==xNum){
+               return X.values()[i]+"";
+           }
        }
+       return "";
      }
  }
  public class Main {

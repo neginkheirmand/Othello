@@ -47,8 +47,8 @@ public class Player {
             return false;
         }
         System.out.println("\ngonna add disk for player " + this.typeOfPlayer);
-
         othelloBoard.addDiskToBoard(x, y, this.typeOfPlayer);
+        System.out.println("\nadding disk method ended, going back to main to print the board" + this.typeOfPlayer);
         return true;
     }
 }
