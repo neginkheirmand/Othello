@@ -21,10 +21,10 @@ public class Player {
         return typeOfPlayer;
     }
 
-    public void nextMoveUpdate(Board gameBoard){
+    public int nextMoveUpdate(Board gameBoard){
         System.out.println("updating the next moves for the player: "+this.typeOfPlayer);
         movesAvailable=gameBoard.updateAvailableMoves(typeOfPlayer);
-        return;
+        return movesAvailable.size();
     }
     public void printInfo(){
         System.out.println("TYPE of this player :"+typeOfPlayer.name()+"\nand has"+ movesAvailable.size()+"moves available to do");

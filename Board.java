@@ -312,7 +312,7 @@ public class Board {
                 } else if (gameBoard.get(y).get(j).giveType().equals(typeOfPlayer.name()) == false) {
                     //unequal TYPEs
                     numberOfBlocksToChange++;
-                    System.out.println("1)unequal type is:   x = "+X.valueOfInt(j)+"  y= "+(y+1));
+//                    System.out.println("1)unequal type is:   x = "+X.valueOfInt(j)+"  y= "+(y+1));
                 } else {
                     //equal TYPEs
                     if(numberOfBlocksToChange>0){
@@ -332,7 +332,7 @@ public class Board {
                 }
                 else if(gameBoard.get(y).get(j).giveType().equals(typeOfPlayer.name()) == false){
                     //unequal TYPEs
-                    System.out.println("2)unequal type is:   x = "+X.valueOfInt(j)+"  y= "+(y+1));
+//                    System.out.println("2)unequal type is:   x = "+X.valueOfInt(j)+"  y= "+(y+1));
                     numberOfBlocksToChange++;
                 }else {
                     //equal TYPEs
@@ -353,7 +353,7 @@ public class Board {
                     break;
                 } else if (gameBoard.get(j).get(x).giveType().equals(typeOfPlayer.name()) == false) {
                     //unequal TYPEs
-                    System.out.println("3)unequal type is:   X = "+X.valueOfInt(x)+"  y= "+(j+1));
+//                    System.out.println("3)unequal type is:   X = "+X.valueOfInt(x)+"  y= "+(j+1));
                     numberOfBlocksToChange++;
                 } else {
                     if(numberOfBlocksToChange>0){
@@ -372,7 +372,7 @@ public class Board {
                     break;
                 } else if (gameBoard.get(j).get(x).giveType().equals(typeOfPlayer.name()) == false) {
                     //unequal TYPEs
-                    System.out.println("4)unequal type is:   x = "+X.valueOfInt(x)+"  y= "+(j+1));
+//                    System.out.println("4)unequal type is:   x = "+X.valueOfInt(x)+"  y= "+(j+1));
                     numberOfBlocksToChange++;
                 } else {
                     if(numberOfBlocksToChange>0){
@@ -392,7 +392,7 @@ public class Board {
                     break;
                 } else if (gameBoard.get(i).get(j).giveType().equals(typeOfPlayer.name()) == false) {
                     //unequal TYPEs
-                    System.out.println("5)unequal type is:   x = "+X.valueOfInt(j)+"  y= "+(i+1));
+//                    System.out.println("5)unequal type is:   x = "+X.valueOfInt(j)+"  y= "+(i+1));
                     numberOfBlocksToChange++;
                 } else {
                     if(numberOfBlocksToChange>0){
@@ -402,16 +402,15 @@ public class Board {
                 }
             }
         }
-
         //daimeter backward(\)
         numberOfBlocksToChange=0;
         if(y>0&&x>0) {
-            for (int i = y - 1, j = x - 1; j < SIZE && i < SIZE; i--, j--) {
+            for (int i = y - 1, j = x - 1; j >= 0 && i >= 0; i--, j--) {
                 if (gameBoard.get(i).get(j).isFull() == false) {
                     break;
                 } else if (gameBoard.get(i).get(j).giveType().equals(typeOfPlayer.name()) == false) {
                     //unequal TYPEs
-                    System.out.println("6)unequal type is:   x = "+X.valueOfInt(j)+"  y= "+(i+1));
+//                    System.out.println("6)unequal type is:   x = "+X.valueOfInt(j)+"  y= "+(i+1));
                     numberOfBlocksToChange++;
                 } else {
                     if(numberOfBlocksToChange>0){
@@ -431,7 +430,7 @@ public class Board {
                     break;
                 } else if (gameBoard.get(i).get(j).giveType().equals(typeOfPlayer.name()) == false) {
                     //unequal TYPEs
-                    System.out.println("7)unequal type is:   x = "+X.valueOfInt(j)+"  y= "+(i+1));
+//                    System.out.println("7)unequal type is:   x = "+X.valueOfInt(j)+"  y= "+(i+1));
                     numberOfBlocksToChange++;
                 } else {
                     if(numberOfBlocksToChange>0){
@@ -449,8 +448,8 @@ public class Board {
                 if (gameBoard.get(i).get(j).isFull() == false) {
                     break;
                 } else if (gameBoard.get(i).get(j).giveType().equals(typeOfPlayer.name()) == false) {
-                    //unequal TYPEs
-                    System.out.printf("8)unequal type is:   x = "+X.valueOfInt(j)+"  y= "+(i+1)+"\n");
+//                    unequal TYPEs
+//                    System.out.printf("8)unequal type is:   x = "+X.valueOfInt(j)+"  y= "+(i+1)+"\n");
                     numberOfBlocksToChange++;
                 } else {
                     if(numberOfBlocksToChange>0){
@@ -460,6 +459,7 @@ public class Board {
                 }
             }
         }
+        System.out.println("gona go out of this function oucyueghdvegqhvcgg");
 
         return;
     }
@@ -473,6 +473,7 @@ public class Board {
                 gameBoard.get(y1).get(i).changeDisk();
                 System.out.printf("*1*)changed the color of x= "+X.valueOfInt(i)+"  y="+(y1)+"\n");
             }
+            return;
         }
 
         //  |
@@ -480,15 +481,18 @@ public class Board {
             for(int j=y1+1 ; j<y1+1+numBlocksToChange; j++){
                 gameBoard.get(j).get(x1).changeDisk();
                 System.out.printf("*2*)changed the color of x= "+X.valueOfInt(x1)+"  y="+(j+1)+"\n");
+
             }
+            return;
         }
 
         //  \
         else if(typeOfIteration==3){
-            for(int i=x1+1, j=y1+1; i<x1+1+numBlocksToChange; i++,j++){
+            for(int i=x1+1, j=y1+1; i<x1+1+numBlocksToChange; i++,j++) {
                 gameBoard.get(j).get(i).changeDisk();
-                System.out.printf("*3*)changed the color of x= "+X.valueOfInt(i)+"  y="+(j+1)+"\n");
+                System.out.printf("*3*)--- %d --changed the color of x= " + X.valueOfInt(i) + "  y=" + (j + 1) + "  NUMBER OF BLOCKS TO BE CHANGED: %d\n", i - x1, numBlocksToChange);
             }
+            return;
         }
 
         //   /
@@ -497,7 +501,31 @@ public class Board {
                 gameBoard.get(j).get(i).changeDisk();
                 System.out.printf("*4*)changed the color of x= "+X.valueOfInt(i)+"  y="+(j+1)+"\n");
             }
+            return;
         }
+        return;
+    }
+
+    public void printInfo(){
+        int numHollowBlocks=0;
+        int numWhiteBlocks=0;
+        int numBlackBlocks=0;
+        for(int i=0; i<SIZE; i++){
+            for(int j=0; j<SIZE; j++){
+                if(gameBoard.get(i).get(j).isFull()==false){
+                    numHollowBlocks++;
+                }else if(gameBoard.get(i).get(j).giveType().equals("WHITE")){
+                    numWhiteBlocks++;
+                }else{
+                    numBlackBlocks++;
+                }
+            }
+        }
+        if(numHollowBlocks!=0) {
+            System.out.println("number of hollow blocks are: "+numHollowBlocks);
+        }
+        System.out.println("number of White blocks: "+numWhiteBlocks);
+        System.out.println("number of Black blocks: "+numBlackBlocks);
         return;
     }
 }
