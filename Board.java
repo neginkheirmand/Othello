@@ -1,7 +1,6 @@
  package ir.ac.aut;
 
 import java.util.ArrayList;
-import java.util.Date;
 
  public class Board {
     private ArrayList<ArrayList<Place>> gameBoard;
@@ -23,21 +22,106 @@ import java.util.Date;
         gameBoard.get(4).get(3).fillBlock(TYPE.BLACK);
     }
 
-    public Board(int size){
-        SIZE=size;
-        gameBoard=new ArrayList<ArrayList<Place>>();
-        for(int i=0; i<SIZE; i++){
-            gameBoard.add(new ArrayList<Place>());
-            for(int j=0; j<SIZE; j++){
-                gameBoard.get(i).add(new Place(j, i));
-            }
-        }
-        //bayad dar nazar begiri ke koja mikhay add koni un chartaye vasato pas agar ham
-        //az in constructor gharare estefade koni bayad aval check koni ke zarib 4
-        //va add kardn yadet nare
+//    public Board(int size){
+//        SIZE=size;
+//        gameBoard=new ArrayList<ArrayList<Place>>();
+//        for(int i=0; i<SIZE; i++){
+//            gameBoard.add(new ArrayList<Place>());
+//            for(int j=0; j<SIZE; j++){
+//                gameBoard.get(i).add(new Place(j, i));
+//            }
+//        }
+//        //bayad dar nazar begiri ke koja mikhay add koni un chartaye vasato pas agar ham
+//        //az in constructor gharare estefade koni bayad aval check koni ke zarib 4
+//        //va add kardn yadet nare
+//    }
+
+     //agar khasT az tuye comment biyarish birun be ai class PcPlayer ham sar bezan
+
+
+    public int getPoint(TYPE typeOfPlayer){
+        int point=0;
+         for(int i=0; i<SIZE; i++){
+             for(int j=0; j<SIZE; j++){
+                 if(gameBoard.get(i).get(j).isFull()==false){
+                     continue;
+                 }
+                 else if(gameBoard.get(i).get(j).giveType().equals(typeOfPlayer.name())){
+                   point++;
+                 }
+                 else{
+                     point--;
+                 }
+             }
+         }
+         //azunjaE ke dashtn mohit gameBoard ahamiat bishtari dare:
+         int numEdgeMe=0;
+         int numEdgeOpponent=0;
+ //----
+         for(int i=0; i<SIZE; i++){
+             if(gameBoard.get(0).get(i).isFull()==false){
+                 continue;
+             }
+             else if(gameBoard.get(0).get(i).giveType().equals(typeOfPlayer.name())){
+                 numEdgeMe++;
+             }
+             else{
+                 numEdgeOpponent++;
+             }
+         }
+//_____
+         for(int i=0; i<SIZE; i++){
+             if(gameBoard.get(SIZE-1).get(i).isFull()==false){
+                 continue;
+             }
+             else if(gameBoard.get(SIZE-1).get(i).giveType().equals(typeOfPlayer.name())){
+                 numEdgeMe++;
+             }
+             else{
+                 numEdgeOpponent++;
+             }
+         }
+// |--
+         for(int i=0; i<SIZE; i++){
+             if(gameBoard.get(i).get(0).isFull()==false){
+                 continue;
+             }
+             else if(gameBoard.get(i).get(0).giveType().equals(typeOfPlayer.name())){
+                 numEdgeMe++;
+             }
+             else{
+                 numEdgeOpponent++;
+             }
+         }
+// --|
+         for(int i=0; i<SIZE; i++){
+             if(gameBoard.get(i).get(SIZE-1).isFull()==false){
+                 continue;
+             }
+             else if(gameBoard.get(i).get(SIZE-1).giveType().equals(typeOfPlayer.name())){
+                 numEdgeMe++;
+             }
+             else{
+                 numEdgeOpponent++;
+             }
+         }
+
+         return point;
     }
 
-    public ArrayList<ArrayList<Place>> getGameBoard(){
+     public int getHollowBlocks(){
+         int hollowBlocks=0;
+         for(int i=0; i<SIZE; i++){
+             for(int j=0; j<SIZE; j++){
+                 if(gameBoard.get(i).get(j).isFull()==false){
+                     hollowBlocks++;
+                 }
+             }
+         }
+         return hollowBlocks;
+     }
+
+     public ArrayList<ArrayList<Place>> getGameBoard(){
         return gameBoard;
     }
 
@@ -290,6 +374,16 @@ import java.util.Date;
     }
 
     public void addDiskToBoard(int x, int y, TYPE typeOfPlayer){
+        gameBoard.get(y).get(x).fillBlock(typeOfPlayer);
+        return;
+    }
+
+     public void hollowDiskOffBoard(int x, int y){
+         gameBoard.get(y).get(x).hollow();
+         return;
+     }
+
+    public void addDiskToBoardAndUpdate(int x, int y, TYPE typeOfPlayer){
         //we are sure that this player can move a disk to this block, it was checked before callling this method
         gameBoard.get(y).get(x).fillBlock(typeOfPlayer);
 //        System.out.printf("just added a disk for player "+typeOfPlayer.name()+" now we have to update the othello board\n");

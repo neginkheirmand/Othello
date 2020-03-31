@@ -48,8 +48,9 @@ public class Player {
         return false;
     }
 
+
     public void addDisk(int x, int y, Board othelloBoard){
-        othelloBoard.addDiskToBoard(x, y, this.typeOfPlayer);
+        othelloBoard.addDiskToBoardAndUpdate(x, y, this.typeOfPlayer);
         return;
     }
 }

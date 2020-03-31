@@ -4,7 +4,14 @@
 //WHITE = 1
 enum TYPE{
     BLACK,
-    WHITE
+    WHITE;
+
+    public static TYPE getOtherTYPE(TYPE thisTYPE){
+        if(thisTYPE.equals(TYPE.BLACK)){
+            return TYPE.WHITE;
+        }
+        return TYPE.BLACK;
+    }
 }
 
 public class Place {
@@ -32,6 +39,7 @@ public class Place {
 
     public void  hollow(){
         isFull=false;
+        type=null;
         return;
     }
 
@@ -53,7 +61,7 @@ public class Place {
     }
 
     public void printInfo(){
-        System.out.println("this is my x "+ x+ "this is my y "+y);
+        System.out.println("  this is my y "+(y+1)+"   this is my x "+ X.valueOfInt(x));
         System.out.println("i am full: "+ isFull);
     }
     
