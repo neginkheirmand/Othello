@@ -74,7 +74,7 @@
             }
             //------------------------------
             if(playerWhite.nextMoveUpdate(myOthelloBoard)!=0) {
-                System.out.println("TORN OF WHITE:");
+                System.out.println("TURN OF WHITE:");
                 myOthelloBoard.printBoard(playerWhite.getMovesAvailable(), playerWhite.getTypeOfPlayer());
                 boolean validInput = false;
                 int numOfWrongInputs = 0;

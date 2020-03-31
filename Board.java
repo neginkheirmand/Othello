@@ -521,12 +521,12 @@ import java.util.Date;
             System.out.println("number of hollow blocks are: "+numHollowBlocks);
         }
         if(numWhiteBlocks>numBlackBlocks) {
-            System.out.println("\033[1;32m"+"WINNER is :"+"\033[0m");
+            System.out.println("\033[1;32m"+"WINNER is    :"+"\033[0m"+"WHITE PLAYER");
         }
         System.out.println("timer: " );
         System.out.println("number of White blocks: "+numWhiteBlocks);
         if(numBlackBlocks>numWhiteBlocks){
-            System.out.println("\033[1;32m"+"WINNER is :"+"\033[0m");
+            System.out.println("\033[1;32m"+"WINNER is :   "+"\033[0;31m"+"BLACK PLAYER"+"\033[0m");
         }
         System.out.println("\033[0;31m"+"timer: " );
         System.out.println("number of Black blocks: "+numBlackBlocks+"\033[0m");
