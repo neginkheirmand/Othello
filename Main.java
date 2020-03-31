@@ -47,7 +47,7 @@
                 int numOfWrongInputs = 0;
                 do {
                     if (numOfWrongInputs > 0) {
-                        System.out.printf("you have to enter a valid direction of block, pay atention to the blocks filled with:");
+                        System.out.printf("you have to enter a valid direction of block, pay attention to the blocks filled with:");
                         System.out.printf("\033[0;31m" + "x\n" + "\033[0m");
                         validInput = false;
                     }
@@ -67,7 +67,8 @@
                         }
                     } while (!validInput);
                     numOfWrongInputs++;
-                } while (!playerBlack.addDisk(newX, newY, myOthelloBoard));
+                } while (!playerBlack.canAddDisk(newX, newY, myOthelloBoard));
+                playerBlack.addDisk(newX, newY, myOthelloBoard);
             }
             else{
                 System.out.println("Black cannot play\nPASS");
@@ -99,7 +100,8 @@
                         }
                     } while (!validInput);
                     numOfWrongInputs++;
-                } while (!playerWhite.addDisk(newX, newY, myOthelloBoard));
+                } while (!playerWhite.canAddDisk(newX, newY, myOthelloBoard));
+                playerWhite.addDisk(newX, newY, myOthelloBoard);
             }
             else{
                 System.out.println("White cannot play\nPASS");

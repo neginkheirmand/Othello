@@ -6,9 +6,11 @@ import ir.ac.aut.TYPE;
 import java.util.ArrayList;
 
 public class Player {
-    private final TYPE typeOfPlayer;
-    private ArrayList<Place> movesAvailable;
-    private long timer;
+
+    protected final TYPE typeOfPlayer;
+    protected ArrayList<Place> movesAvailable;
+    protected long timer;
+
     public Player(TYPE typeOfPlayer){
         this.typeOfPlayer=typeOfPlayer;
         timer=0;
@@ -36,21 +38,18 @@ public class Player {
         System.out.println("\n\n");
     }
 
-    public boolean addDisk(int x, int y, Board othelloBoard){
+    public boolean canAddDisk(int x, int y, Board othelloBoard){
         boolean canBePlaced=false;
         for(int i=0; i<movesAvailable.size(); i++){
             if(movesAvailable.get(i).getY()==y&&movesAvailable.get(i).getX()==x){
-                canBePlaced=true;
-                break;
+                return true;
             }
         }
-        if(canBePlaced==false){
-            System.out.println("cannot add disk in this block");
-            return false;
-        }
-//        System.out.println("\ngonna add disk for player " + this.typeOfPlayer);
+        return false;
+    }
+
+    public void addDisk(int x, int y, Board othelloBoard){
         othelloBoard.addDiskToBoard(x, y, this.typeOfPlayer);
-//        System.out.println("\nadding disk method ended, going back to main to print the board" + this.typeOfPlayer);
-        return true;
+        return;
     }
 }
