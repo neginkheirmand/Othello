@@ -4,7 +4,8 @@ import java.util.ArrayList;
 
  public class Board {
     private ArrayList<ArrayList<Place>> gameBoard;
-    final int SIZE;
+    private final int SIZE;
+    private boolean uniCode;
     public Board(){
 //        Date timer= new Date(0);
         SIZE=8;
