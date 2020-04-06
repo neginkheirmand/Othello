@@ -5,6 +5,26 @@ import java.util.Scanner;
 
 public class Run {
     public static void main(String[] args) {
+        Scanner wait=new Scanner(System.in);
+        System.out.println("\033[0;35m"+"do you want to Play against the computer or against human opponent?");
+        System.out.println("1)"+"\033[1;36m"+" AI"+"\033[0m"+" Opponent");
+        System.out.println("\033[0;35m"+"1)"+"\033[0m"+" Human Opponent");
+//        int Op
+        System.out.println("do you want to be the black player or the white player?");
+        System.out.println("\033[1;37m"+"1) the White Player");
+        System.out.println("\033[0;31m"+"1) the Black Player");
+        int playerType=wait.nextInt();
+        while(playerType!=1||playerType!=2){
+            System.out.println("Enter a valid number");
+            playerType=wait.nextInt();
+        }
+        if(playerType==1){
+
+        }else{
+            
+        }
+        System.out.println("how do you want your disk:");
+        System.out.println("1) "+"\u2022");
         System.out.println("this is the pcPlayer Version");
         System.out.println("the AI is supposted to be the black player, after you can change it mannually");
         PcPlayer playerBlack;
@@ -16,7 +36,6 @@ public class Run {
 
         //---------------
         String nextMoveWhite;
-        Scanner wait=new Scanner(System.in);
         while(myOthelloBoard.gameEnd()==false){
             //first move to black pawn
             System.out.printf("TURN OF BLACK: \n");

@@ -986,7 +986,6 @@ import java.util.ArrayList;
         if(numWhiteBlocks>numBlackBlocks) {
             System.out.println("\033[1;32m"+"WINNER is    :"+"\033[0m"+"WHITE PLAYER");
         }
-        System.out.println("timer: " );
         System.out.println("number of White blocks: "+numWhiteBlocks);
         if(numBlackBlocks>numWhiteBlocks){
             System.out.println("\033[1;32m"+"WINNER is :   "+"\033[0;31m"+"BLACK PLAYER"+"\033[0m");
