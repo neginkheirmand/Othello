@@ -23,6 +23,7 @@ public class Run {
             playerBlack.nextMoveUpdate(myOthelloBoard);
             myOthelloBoard.printBoard(playerBlack.getMovesAvailable(), playerBlack.getTypeOfPlayer());
             playerBlack.decideNextMove(myOthelloBoard);
+            myOthelloBoard.printStableDisks(TYPE.BLACK);
 
             int newX=0, newY=0;
             if(playerWhite.nextMoveUpdate(myOthelloBoard)!=0) {

@@ -22,6 +22,9 @@ import java.util.ArrayList;
     }
 
     public int getPoint(TYPE typeOfPlayer){
+        int diagramPointThis[][]=makeStrategyDiagram(typeOfPlayer);
+        int diagramPointOpp[][]=makeStrategyDiagram(TYPE.getOtherTYPE(typeOfPlayer));
+
         int point=0;
          for(int i=0; i<SIZE; i++){
              for(int j=0; j<SIZE; j++){
@@ -29,68 +32,15 @@ import java.util.ArrayList;
                      continue;
                  }
                  else if(gameBoard.get(i).get(j).giveType().equals(typeOfPlayer.name())){
-                   point++;
+                   point+=diagramPointThis[i][j];
                  }
                  else{
-                     point--;
+                     point-=diagramPointOpp[i][j];
                  }
              }
          }
-         //azunjaE ke dashtn mohit gameBoard ahamiat bishtari dare:
-         int numEdgeMe=0;
-         int numEdgeOpponent=0;
- //----
-         for(int i=0; i<SIZE; i++){
-             if(gameBoard.get(0).get(i).isFull()==false){
-                 continue;
-             }
-             else if(gameBoard.get(0).get(i).giveType().equals(typeOfPlayer.name())){
-                 numEdgeMe++;
-             }
-             else{
-                 numEdgeOpponent++;
-             }
-         }
-//_____
-         for(int i=0; i<SIZE; i++){
-             if(gameBoard.get(SIZE-1).get(i).isFull()==false){
-                 continue;
-             }
-             else if(gameBoard.get(SIZE-1).get(i).giveType().equals(typeOfPlayer.name())){
-                 numEdgeMe++;
-             }
-             else{
-                 numEdgeOpponent++;
-             }
-         }
-// |--
-         for(int i=0; i<SIZE; i++){
-             if(gameBoard.get(i).get(0).isFull()==false){
-                 continue;
-             }
-             else if(gameBoard.get(i).get(0).giveType().equals(typeOfPlayer.name())){
-                 numEdgeMe++;
-             }
-             else{
-                 numEdgeOpponent++;
-             }
-         }
-// --|
-         for(int i=0; i<SIZE; i++){
-             if(gameBoard.get(i).get(SIZE-1).isFull()==false){
-                 continue;
-             }
-             else if(gameBoard.get(i).get(SIZE-1).giveType().equals(typeOfPlayer.name())){
-                 numEdgeMe++;
-             }
-             else{
-                 numEdgeOpponent++;
-             }
-         }
-
         //stableDisks Strategy
-         int addPoint=getNumStableDisks(typeOfPlayer);
-         return point+addPoint;
+         return point+(getNumStableDisks(typeOfPlayer)*2)-(getNumStableDisks(TYPE.getOtherTYPE(typeOfPlayer))*2);
     }
 
     private boolean existsInArray(ArrayList<Place> stables, int x, int y){
@@ -101,7 +51,155 @@ import java.util.ArrayList;
         }
         return false;
     }
-    
+
+    public void printStableDisks(TYPE typeOfPlayer){
+         ArrayList<Place> stabledisks=new ArrayList<>();
+
+         //up-left
+         int numContinousBlocks=0;
+         //first line
+         for(int i=0; i<SIZE; i++){
+             if(gameBoard.get(0).get(i).giveType().equals(typeOfPlayer.name())){
+                 numContinousBlocks++;
+                 stabledisks.add(gameBoard.get(0).get(i));
+             }else{
+                 break;
+             }
+         }
+         //other lines
+         for(int i=1; i<SIZE; i++){
+             int numNextLineContinousBlocks=0;
+             for(int j=0; j<numContinousBlocks-1;j++){
+                 if(gameBoard.get(i).get(j).giveType().equals(typeOfPlayer.name())){
+                     if(existsInArray(stabledisks, j, i)==false){
+                         stabledisks.add(gameBoard.get(i).get(j));
+                     }
+                     numNextLineContinousBlocks++;
+                 }else{
+                     break;
+                 }
+             }
+             numContinousBlocks=numNextLineContinousBlocks;
+             if(numContinousBlocks==0){
+                 break;
+             }
+             else if(numContinousBlocks==1){
+                 numContinousBlocks=2;
+             }
+         }
+
+         //up-right
+         numContinousBlocks=0;
+         //first line
+         for(int i=SIZE-1; i>=0; i--){
+             if(gameBoard.get(0).get(i).giveType().equals(typeOfPlayer.name())){
+                 numContinousBlocks++;
+                 if(existsInArray(stabledisks, i, 0)==false) {
+                     stabledisks.add(gameBoard.get(0).get(i));
+                 }
+             }else{
+                 break;
+             }
+         }
+         //other lines
+         for(int i=0; i<SIZE; i++){
+             int numNextLineContinousBlocks=0;
+             for(int j=SIZE-1; (SIZE-j)<numContinousBlocks-1;j--){
+                 if(gameBoard.get(i).get(j).giveType().equals(typeOfPlayer.name())){
+                     if(existsInArray(stabledisks, j, i)==false){
+                         stabledisks.add(gameBoard.get(i).get(j));
+                     }
+                     numNextLineContinousBlocks++;
+                 }else{
+                     break;
+                 }
+             }
+             numContinousBlocks=numNextLineContinousBlocks;
+             if(numContinousBlocks==0){
+                 break;
+             }
+             else if(numContinousBlocks==1){
+                 numContinousBlocks=2;
+             }
+         }
+
+         //down-right
+         numContinousBlocks=0;
+         //first line
+         for(int i=SIZE-1; i>=0; i--){
+             if(gameBoard.get(7).get(i).giveType().equals(typeOfPlayer.name())){
+                 numContinousBlocks++;
+                 if(existsInArray(stabledisks, i, 7)==false) {
+                     stabledisks.add(gameBoard.get(7).get(i));
+                 }
+             }else{
+                 break;
+             }
+         }
+         //other lines
+         for(int i=SIZE-1; i>=0; i--){
+             int numNextLineContinousBlocks=0;
+             for(int j=SIZE-1; (SIZE-j)<numContinousBlocks-1;j--){
+                 if(gameBoard.get(i).get(j).giveType().equals(typeOfPlayer.name())){
+                     if(existsInArray(stabledisks, j, i)==false){
+                         stabledisks.add(gameBoard.get(i).get(j));
+                     }
+                     numNextLineContinousBlocks++;
+                 }else{
+                     break;
+                 }
+             }
+             numContinousBlocks=numNextLineContinousBlocks;
+             if(numContinousBlocks==0){
+                 break;
+             }
+             else if(numContinousBlocks==1){
+                 numContinousBlocks=2;
+             }
+         }
+
+         //down-left
+         numContinousBlocks=0;
+         //first line
+         for(int i=0; i<SIZE; i++){
+             if(gameBoard.get(7).get(i).giveType().equals(typeOfPlayer.name())){
+                 numContinousBlocks++;
+                 if(existsInArray(stabledisks, i, 7)==false) {
+                     stabledisks.add(gameBoard.get(7).get(i));
+                 }
+             }else{
+                 break;
+             }
+         }
+         //other lines
+         for(int i=SIZE-1; i>=0; i--){
+             int numNextLineContinousBlocks=0;
+             for(int j=0; j<numContinousBlocks-1;j++){
+                 if(gameBoard.get(i).get(j).giveType().equals(typeOfPlayer.name())){
+                     if(existsInArray(stabledisks, j, i)==false){
+                         stabledisks.add(gameBoard.get(i).get(j));
+                     }
+                     numNextLineContinousBlocks++;
+                 }else{
+                     break;
+                 }
+             }
+             numContinousBlocks=numNextLineContinousBlocks;
+             if(numContinousBlocks==0){
+                 break;
+             }
+             else if(numContinousBlocks==1){
+                 numContinousBlocks=2;
+             }
+         }
+
+         System.out.println("gonna print the stable disks of player "+ typeOfPlayer);
+         for(int i=0; i<stabledisks.size(); i++){
+             System.out.println(""+i+")  Y="+(stabledisks.get(i).getY()+1)+"  X="+ (X.valueOfInt(stabledisks.get(i).getX()))  );
+         }
+         System.out.println("that was all");
+     }
+
     private int getNumStableDisks(TYPE typeOfPlayer){
         ArrayList<Place> stabledisks=new ArrayList<>();
 
@@ -141,7 +239,7 @@ import java.util.ArrayList;
         //up-right
         numContinousBlocks=0;
         //first line
-        for(int i=SIZE; i>=0; i--){
+        for(int i=SIZE-1; i>=0; i--){
             if(gameBoard.get(0).get(i).giveType().equals(typeOfPlayer.name())){
                 numContinousBlocks++;
                 if(existsInArray(stabledisks, i, 0)==false) {
@@ -154,7 +252,7 @@ import java.util.ArrayList;
         //other lines
         for(int i=0; i<SIZE; i++){
             int numNextLineContinousBlocks=0;
-            for(int j=SIZE; (SIZE-j)<numContinousBlocks-1;j--){
+            for(int j=SIZE-1; (SIZE-j)<numContinousBlocks-1;j--){
                 if(gameBoard.get(i).get(j).giveType().equals(typeOfPlayer.name())){
                     if(existsInArray(stabledisks, j, i)==false){
                         stabledisks.add(gameBoard.get(i).get(j));
@@ -176,7 +274,7 @@ import java.util.ArrayList;
         //down-right
         numContinousBlocks=0;
         //first line
-        for(int i=SIZE; i>=0; i--){
+        for(int i=SIZE-1; i>=0; i--){
             if(gameBoard.get(7).get(i).giveType().equals(typeOfPlayer.name())){
                 numContinousBlocks++;
                 if(existsInArray(stabledisks, i, 7)==false) {
@@ -187,9 +285,9 @@ import java.util.ArrayList;
             }
         }
         //other lines
-        for(int i=SIZE; i>=0; i--){
+        for(int i=SIZE-1; i>=0; i--){
             int numNextLineContinousBlocks=0;
-            for(int j=SIZE; (SIZE-j)<numContinousBlocks-1;j--){
+            for(int j=SIZE-1; (SIZE-j)<numContinousBlocks-1;j--){
                 if(gameBoard.get(i).get(j).giveType().equals(typeOfPlayer.name())){
                     if(existsInArray(stabledisks, j, i)==false){
                         stabledisks.add(gameBoard.get(i).get(j));
@@ -222,7 +320,7 @@ import java.util.ArrayList;
             }
         }
         //other lines
-        for(int i=SIZE; i>=0; i--){
+        for(int i=SIZE-1; i>=0; i--){
             int numNextLineContinousBlocks=0;
             for(int j=0; j<numContinousBlocks-1;j++){
                 if(gameBoard.get(i).get(j).giveType().equals(typeOfPlayer.name())){
@@ -246,7 +344,7 @@ import java.util.ArrayList;
         return stabledisks.size();
     }
 
-     private int[][] makeStrategyDiagram(TYPE typeOfPcPlayer){
+     private int[][] makeStrategyDiagram(TYPE typeOfPlayer){
 
         int[][] strategyDiagram={
                  {99, -8, 8, 6, 6, 8, -8, 99},
@@ -257,51 +355,46 @@ import java.util.ArrayList;
                  { 8, -4, 7, 4, 4, 7, -4,  8},
                  {-8,-24,-4,-3,-3,-4,-24, -8},
                  {99, -8, 8, 6, 6, 8, -8, 99},
-         };
+        };
         //the corners
-         if(gameBoard.get(0).get(0).isFull()==true && gameBoard.get(0).get(0).giveType().equals(typeOfPcPlayer.name())){
-            strategyDiagram[0][1]*=-1;
-            strategyDiagram[1][0]*=-1;
-            strategyDiagram[1][1]*=-1;
-
-        }
-         if(gameBoard.get(0).get(7).isFull()==true && gameBoard.get(0).get(7).giveType().equals(typeOfPcPlayer.name())){
-             strategyDiagram[0][6]*=-1;
-             strategyDiagram[1][6]*=-1;
-             strategyDiagram[1][7]*=-1;
+         if(gameBoard.get(0).get(0).isFull()==true && gameBoard.get(0).get(0).giveType().equals(typeOfPlayer.name())){
+            strategyDiagram[0][1]=9;
+            strategyDiagram[1][0]=9;
+            strategyDiagram[1][1]=8;
 
          }
-         if(gameBoard.get(7).get(0).isFull()==true && gameBoard.get(7).get(0).giveType().equals(typeOfPcPlayer.name())){
-             strategyDiagram[7][1]*=-1;
-             strategyDiagram[6][0]*=-1;
-             strategyDiagram[6][1]*=-1;
+         if(gameBoard.get(0).get(7).isFull()==true && gameBoard.get(0).get(7).giveType().equals(typeOfPlayer.name())){
+             strategyDiagram[0][6]=9;
+             strategyDiagram[1][7]=9;
+             strategyDiagram[1][6]=8;
 
          }
-         if(gameBoard.get(7).get(7).isFull()==true && gameBoard.get(7).get(7).giveType().equals(typeOfPcPlayer.name())){
-             strategyDiagram[7][6]*=-1;
-             strategyDiagram[6][6]*=-1;
-             strategyDiagram[6][7]*=-1;
+         if(gameBoard.get(7).get(0).isFull()==true && gameBoard.get(7).get(0).giveType().equals(typeOfPlayer.name())){
+             strategyDiagram[7][1]=9;
+             strategyDiagram[6][0]=9;
+             strategyDiagram[6][1]=8;
+
+         }
+         if(gameBoard.get(7).get(7).isFull()==true && gameBoard.get(7).get(7).giveType().equals(typeOfPlayer.name())){
+             strategyDiagram[7][6]=9;
+             strategyDiagram[6][7]=9;
+             strategyDiagram[6][6]=8;
 
          }
 
          //top edge
          int numMyFull=0;
          for(int i=0; i<8; i++){
-             if(gameBoard.get(0).get(i).isFull()==true&&gameBoard.get(0).get(i).giveType().equals(typeOfPcPlayer.name())){
+             if(gameBoard.get(0).get(i).isFull()==true&&gameBoard.get(0).get(i).giveType().equals(typeOfPlayer.name())){
                  numMyFull++;
-                 continue;
+             }else{
+                 break;
              }
          }
          if(numMyFull==SIZE){
-             strategyDiagram[0][1]=8;
-             strategyDiagram[0][7]=8;
-             for(int i=0; i<8; i++){
-                 if(strategyDiagram[1][i]==-24){
-                     strategyDiagram[1][i]=-7;
-                 }
-                 else if(strategyDiagram[1][i]<0){
+             for(int i=2; i<6; i++){
+                 if(strategyDiagram[1][i]<0){
                      strategyDiagram[1][i]*=-1;
-                     continue;
                  }
              }
          }
@@ -309,27 +402,16 @@ import java.util.ArrayList;
          //right edge
          numMyFull=0;
          for(int i=0; i<8; i++){
-             if(gameBoard.get(i).get(7).isFull()==true&&gameBoard.get(i).get(7).giveType().equals(typeOfPcPlayer.name())){
+             if(gameBoard.get(i).get(7).isFull()==true&&gameBoard.get(i).get(7).giveType().equals(typeOfPlayer.name())){
                  numMyFull++;
-                 continue;
+             }else{
+                 break;
              }
          }
          if(numMyFull==SIZE){
-             strategyDiagram[1][7]=8;
-             strategyDiagram[6][7]=8;
-             for(int i=0; i<8; i++){
-                 if(strategyDiagram[i][6]==-24){
-                     strategyDiagram[i][6]=-7;
-                 }
-                 else if(strategyDiagram[i][6]==-7){
-                     strategyDiagram[i][6]=8;
-                 }
-                 else if(i==0||i==6){
-                     strategyDiagram[i][6]=24;
-                 }
-                 else if(strategyDiagram[i][6]<0){
+             for(int i=2; i<6; i++){
+                 if(strategyDiagram[i][6]<0){
                      strategyDiagram[i][6]*=-1;
-                     continue;
                  }
              }
          }
@@ -337,21 +419,16 @@ import java.util.ArrayList;
          //left edge
          numMyFull=0;
          for(int i=0; i<8; i++){
-             if(gameBoard.get(i).get(0).isFull()==true&&gameBoard.get(i).get(0).giveType().equals(typeOfPcPlayer.name())){
+             if(gameBoard.get(i).get(0).isFull()==true&&gameBoard.get(i).get(0).giveType().equals(typeOfPlayer.name())){
                  numMyFull++;
+             }else{
+                 break;
              }
          }
          if(numMyFull==SIZE){
-             for(int i=0; i<8; i++){
-                 if(strategyDiagram[i][0]==-24){
-                     strategyDiagram[i][0]=-7;
-                 }
-                 else if(strategyDiagram[i][0]==-7){
-                     strategyDiagram[i][0]=7;
-                 }
-                 else if(strategyDiagram[i][0]<0){
-                     strategyDiagram[i][0]*=-1;
-                     continue;
+             for(int i=2; i<6; i++){
+                 if(strategyDiagram[i][1]<0){
+                     strategyDiagram[i][1]*=-1;
                  }
              }
          }
@@ -359,26 +436,21 @@ import java.util.ArrayList;
          //downside edge
          numMyFull=0;
          for(int i=0; i<8; i++){
-             if(gameBoard.get(7).get(i).isFull()==true&&gameBoard.get(7).get(i).giveType().equals(typeOfPcPlayer.name())){
+             if(gameBoard.get(7).get(i).isFull()==true&&gameBoard.get(7).get(i).giveType().equals(typeOfPlayer.name())){
                  numMyFull++;
-                 continue;
-
+             }else{
+                 break;
              }
          }
          if(numMyFull==SIZE){
-             for(int i=0; i<8; i++){
-                 if(strategyDiagram[7][i]==-24){
-                     strategyDiagram[7][i]=-7;
-                 }
-                 else if(strategyDiagram[7][i]==-7){
-                     strategyDiagram[7][i]=7;
-                 }
-                 else if(strategyDiagram[7][i]<0){
-                     strategyDiagram[7][i]*=-1;
+             for(int i=2; i<6; i++){
+                 if(strategyDiagram[6][i]<0){
+                     strategyDiagram[6][i]*=-1;
                      continue;
                  }
              }
          }
+
          return strategyDiagram;
      }
 
@@ -919,8 +991,10 @@ import java.util.ArrayList;
         if(numBlackBlocks>numWhiteBlocks){
             System.out.println("\033[1;32m"+"WINNER is :   "+"\033[0;31m"+"BLACK PLAYER"+"\033[0m");
         }
-        System.out.println("\033[0;31m"+"timer: " );
         System.out.println("number of Black blocks: "+numBlackBlocks+"\033[0m");
+        if(numBlackBlocks==numWhiteBlocks){
+            System.out.println("\033[0;33m"+"ITS DRAW");
+        }
         return;
     }
 }

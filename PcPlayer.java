@@ -90,15 +90,8 @@ public class PcPlayer extends Player {
     private int ai(Board othelloBoard, int repetition, int alpha, int beta, TYPE playerOfTurn, boolean passTurnBefore){
 //        Alpha is the best value that the maximizer currently can guarantee at that level or above.
 //        Beta is the best value that the minimizer currently can guarantee at that level or above.
-        if(shomarevurudi>24) {
-            System.out.println("othelloBoard.gameEnd() is: " + othelloBoard.gameEnd());
-            System.out.println("repetition==? is: " + repetition);
-            System.out.println("othelloBoard.getHollowBlocks() is: " + othelloBoard.getHollowBlocks());
-        }
+
         if(othelloBoard.gameEnd() || (repetition==10/* && othelloBoard.getHollowBlocks()>3*/) ){
-            if(shomarevurudi>24) {
-                System.out.println("was able to make it");
-            }
             return othelloBoard.getPoint(this.typeOfPlayer);
         }
         ArrayList<Place> movesForThisPlayer = othelloBoard.updateAvailableMoves(typeOfPlayer);
