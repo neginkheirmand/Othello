@@ -6,8 +6,8 @@ import java.util.ArrayList;
     private ArrayList<ArrayList<Place>> gameBoard;
     private final int SIZE;
     private boolean uniCode;
-    public Board(){
-//        Date timer= new Date(0);
+    public Board(boolean uniCode){
+        this.uniCode=uniCode;
         SIZE=8;
         gameBoard=new ArrayList<ArrayList<Place>>();
         for(int i=0; i<SIZE; i++){
@@ -455,46 +455,6 @@ import java.util.ArrayList;
          return strategyDiagram;
      }
 
-     public int getHollowBlocks(){
-         int hollowBlocks=0;
-         for(int i=0; i<SIZE; i++){
-             for(int j=0; j<SIZE; j++){
-                 if(gameBoard.get(i).get(j).isFull()==false){
-                     hollowBlocks++;
-                 }
-             }
-         }
-         return hollowBlocks;
-     }
-
-     public int getBlackDiskNum(){
-         int num=0;
-         for(int i=0; i<SIZE; i++){
-             for(int j=0; j<SIZE; j++){
-                 if(gameBoard.get(i).get(j).isFull()==true && gameBoard.get(i).get(j).giveType().equals(TYPE.BLACK)){
-                     num++;
-                 }
-             }
-         }
-         return num;
-     }
-
-     public int getWhiteDiskNum(){
-         int num=0;
-         for(int i=0; i<SIZE; i++){
-             for(int j=0; j<SIZE; j++){
-                 if(gameBoard.get(i).get(j).isFull()==true && gameBoard.get(i).get(j).giveType().equals(TYPE.WHITE)){
-                     num++;
-                 }
-             }
-         }
-         return num;
-     }
-
-     public ArrayList<ArrayList<Place>> getGameBoard(){
-        return gameBoard;
-    }
-
     public ArrayList<Place> updateAvailableMoves(TYPE playerType){
         ArrayList<Place> newMoves= new ArrayList<>();
         for(int i=0; i<SIZE; i++){
@@ -778,7 +738,7 @@ import java.util.ArrayList;
                 } else {
                     //equal TYPEs
                     if(numberOfBlocksToChange>0){
-                        color(x, y, numberOfBlocksToChange, typeOfPlayer,1);
+                        color(x, y, numberOfBlocksToChange,1);
                     }
                     break;
                 }
@@ -799,7 +759,7 @@ import java.util.ArrayList;
                 }else {
                     //equal TYPEs
                     if(numberOfBlocksToChange>0){
-                        color(x-1-numberOfBlocksToChange, y, numberOfBlocksToChange, typeOfPlayer,1);
+                        color(x-1-numberOfBlocksToChange, y, numberOfBlocksToChange, 1);
                     }
                     break;
                 }
@@ -819,7 +779,7 @@ import java.util.ArrayList;
                     numberOfBlocksToChange++;
                 } else {
                     if(numberOfBlocksToChange>0){
-                        color(x, y, numberOfBlocksToChange, typeOfPlayer, 2);
+                        color(x, y, numberOfBlocksToChange, 2);
                     }
                     break;
                 }
@@ -838,7 +798,7 @@ import java.util.ArrayList;
                     numberOfBlocksToChange++;
                 } else {
                     if(numberOfBlocksToChange>0){
-                        color(x, y-1-numberOfBlocksToChange, numberOfBlocksToChange, typeOfPlayer, 2);
+                        color(x, y-1-numberOfBlocksToChange, numberOfBlocksToChange, 2);
                     }
                     break;
                 }
@@ -858,7 +818,7 @@ import java.util.ArrayList;
                     numberOfBlocksToChange++;
                 } else {
                     if(numberOfBlocksToChange>0){
-                        color(x, y, numberOfBlocksToChange, typeOfPlayer, 3);
+                        color(x, y, numberOfBlocksToChange, 3);
                     }
                     break;
                 }
@@ -876,7 +836,7 @@ import java.util.ArrayList;
                     numberOfBlocksToChange++;
                 } else {
                     if(numberOfBlocksToChange>0){
-                        color(x-1-numberOfBlocksToChange, y-1-numberOfBlocksToChange, numberOfBlocksToChange, typeOfPlayer, 3);
+                        color(x-1-numberOfBlocksToChange, y-1-numberOfBlocksToChange, numberOfBlocksToChange, 3);
                     }
                     break;
                 }
@@ -896,7 +856,7 @@ import java.util.ArrayList;
                     numberOfBlocksToChange++;
                 } else {
                     if(numberOfBlocksToChange>0){
-                        color(x-1-numberOfBlocksToChange, y+1+numberOfBlocksToChange, numberOfBlocksToChange, typeOfPlayer, 4);
+                        color(x-1-numberOfBlocksToChange, y+1+numberOfBlocksToChange, numberOfBlocksToChange, 4);
                     }
                     break;
                 }
@@ -915,7 +875,7 @@ import java.util.ArrayList;
                     numberOfBlocksToChange++;
                 } else {
                     if(numberOfBlocksToChange>0){
-                        color(x, y, numberOfBlocksToChange, typeOfPlayer, 4);
+                        color(x, y, numberOfBlocksToChange, 4);
                     }
                     break;
                 }
@@ -925,7 +885,7 @@ import java.util.ArrayList;
         return;
     }
 
-    private void color(int x1, int y1,int numBlocksToChange, TYPE typeDisk, int typeOfIteration ){
+    private void color(int x1, int y1,int numBlocksToChange, int typeOfIteration ){
         //the x1 is the argument x of the disk with type declared before and x2 is where it should end
 
         //  <-->

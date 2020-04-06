@@ -9,7 +9,12 @@ public class Run {
 
     public Run(){
         int[] typeInfo=startMenu();
-        myOthelloBoard=new Board();
+        if(typeInfo[2]==2) {
+            //unicode version
+            myOthelloBoard = new Board(true);
+        }else{
+            myOthelloBoard = new Board(false);
+        }
         if(typeInfo[1]==1){
             user= new Player(TYPE.WHITE);
         }else{

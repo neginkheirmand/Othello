@@ -26,9 +26,8 @@
 
 
  public class Main {
-    public static Board myOthelloBoard= new Board();
     public static void main(String args[]){
-        Run myGame= new Run();
+        new Run();
     }
  }
 
