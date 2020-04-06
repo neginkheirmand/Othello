@@ -1,5 +1,6 @@
 package ir.ac.aut;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Run {
@@ -62,7 +63,7 @@ public class Run {
 
 
         System.out.printf("----------------\nend of game--------------\n");
-        myOthelloBoard.printBoard(null, playerBlack.getTypeOfPlayer());
+        myOthelloBoard.printBoard( new ArrayList<Place>(), playerBlack.getTypeOfPlayer());
         myOthelloBoard.printInfo();
         //---------------
     }

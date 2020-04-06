@@ -5,7 +5,6 @@ import java.util.ArrayList;
  public class Board {
     private ArrayList<ArrayList<Place>> gameBoard;
     final int SIZE;
-
     public Board(){
 //        Date timer= new Date(0);
         SIZE=8;
@@ -21,23 +20,6 @@ import java.util.ArrayList;
         gameBoard.get(3).get(4).fillBlock(TYPE.BLACK);
         gameBoard.get(4).get(3).fillBlock(TYPE.BLACK);
     }
-
-//    public Board(int size){
-//        SIZE=size;
-//        gameBoard=new ArrayList<ArrayList<Place>>();
-//        for(int i=0; i<SIZE; i++){
-//            gameBoard.add(new ArrayList<Place>());
-//            for(int j=0; j<SIZE; j++){
-//                gameBoard.get(i).add(new Place(j, i));
-//            }
-//        }
-//        //bayad dar nazar begiri ke koja mikhay add koni un chartaye vasato pas agar ham
-//        //az in constructor gharare estefade koni bayad aval check koni ke zarib 4
-//        //va add kardn yadet nare
-//    }
-
-     //agar khasT az tuye comment biyarish birun be ai class PcPlayer ham sar bezan
-
 
     public int getPoint(TYPE typeOfPlayer){
         int point=0;
@@ -106,8 +88,299 @@ import java.util.ArrayList;
              }
          }
 
-         return point;
+        //stableDisks Strategy
+         int addPoint=getNumStableDisks(typeOfPlayer);
+         return point+addPoint;
     }
+
+    private boolean existsInArray(ArrayList<Place> stables, int x, int y){
+        for(int i=0; i<stables.size(); i++){
+            if(x==stables.get(i).getX() && y==stables.get(i).getY()){
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    private int getNumStableDisks(TYPE typeOfPlayer){
+        ArrayList<Place> stabledisks=new ArrayList<>();
+
+        //up-left
+        int numContinousBlocks=0;
+        //first line
+        for(int i=0; i<SIZE; i++){
+            if(gameBoard.get(0).get(i).giveType().equals(typeOfPlayer.name())){
+                numContinousBlocks++;
+                stabledisks.add(gameBoard.get(0).get(i));
+            }else{
+                break;
+            }
+        }
+        //other lines
+        for(int i=1; i<SIZE; i++){
+            int numNextLineContinousBlocks=0;
+            for(int j=0; j<numContinousBlocks-1;j++){
+                if(gameBoard.get(i).get(j).giveType().equals(typeOfPlayer.name())){
+                    if(existsInArray(stabledisks, j, i)==false){
+                        stabledisks.add(gameBoard.get(i).get(j));
+                    }
+                    numNextLineContinousBlocks++;
+                }else{
+                    break;
+                }
+            }
+            numContinousBlocks=numNextLineContinousBlocks;
+            if(numContinousBlocks==0){
+                break;
+            }
+            else if(numContinousBlocks==1){
+                numContinousBlocks=2;
+            }
+        }
+
+        //up-right
+        numContinousBlocks=0;
+        //first line
+        for(int i=SIZE; i>=0; i--){
+            if(gameBoard.get(0).get(i).giveType().equals(typeOfPlayer.name())){
+                numContinousBlocks++;
+                if(existsInArray(stabledisks, i, 0)==false) {
+                    stabledisks.add(gameBoard.get(0).get(i));
+                }
+            }else{
+                break;
+            }
+        }
+        //other lines
+        for(int i=0; i<SIZE; i++){
+            int numNextLineContinousBlocks=0;
+            for(int j=SIZE; (SIZE-j)<numContinousBlocks-1;j--){
+                if(gameBoard.get(i).get(j).giveType().equals(typeOfPlayer.name())){
+                    if(existsInArray(stabledisks, j, i)==false){
+                        stabledisks.add(gameBoard.get(i).get(j));
+                    }
+                    numNextLineContinousBlocks++;
+                }else{
+                    break;
+                }
+            }
+            numContinousBlocks=numNextLineContinousBlocks;
+            if(numContinousBlocks==0){
+                break;
+            }
+            else if(numContinousBlocks==1){
+                numContinousBlocks=2;
+            }
+        }
+
+        //down-right
+        numContinousBlocks=0;
+        //first line
+        for(int i=SIZE; i>=0; i--){
+            if(gameBoard.get(7).get(i).giveType().equals(typeOfPlayer.name())){
+                numContinousBlocks++;
+                if(existsInArray(stabledisks, i, 7)==false) {
+                    stabledisks.add(gameBoard.get(7).get(i));
+                }
+            }else{
+                break;
+            }
+        }
+        //other lines
+        for(int i=SIZE; i>=0; i--){
+            int numNextLineContinousBlocks=0;
+            for(int j=SIZE; (SIZE-j)<numContinousBlocks-1;j--){
+                if(gameBoard.get(i).get(j).giveType().equals(typeOfPlayer.name())){
+                    if(existsInArray(stabledisks, j, i)==false){
+                        stabledisks.add(gameBoard.get(i).get(j));
+                    }
+                    numNextLineContinousBlocks++;
+                }else{
+                    break;
+                }
+            }
+            numContinousBlocks=numNextLineContinousBlocks;
+            if(numContinousBlocks==0){
+                break;
+            }
+            else if(numContinousBlocks==1){
+                numContinousBlocks=2;
+            }
+        }
+
+        //down-left
+        numContinousBlocks=0;
+        //first line
+        for(int i=0; i<SIZE; i++){
+            if(gameBoard.get(7).get(i).giveType().equals(typeOfPlayer.name())){
+                numContinousBlocks++;
+                if(existsInArray(stabledisks, i, 7)==false) {
+                    stabledisks.add(gameBoard.get(7).get(i));
+                }
+            }else{
+                break;
+            }
+        }
+        //other lines
+        for(int i=SIZE; i>=0; i--){
+            int numNextLineContinousBlocks=0;
+            for(int j=0; j<numContinousBlocks-1;j++){
+                if(gameBoard.get(i).get(j).giveType().equals(typeOfPlayer.name())){
+                    if(existsInArray(stabledisks, j, i)==false){
+                        stabledisks.add(gameBoard.get(i).get(j));
+                    }
+                    numNextLineContinousBlocks++;
+                }else{
+                    break;
+                }
+            }
+            numContinousBlocks=numNextLineContinousBlocks;
+            if(numContinousBlocks==0){
+                break;
+            }
+            else if(numContinousBlocks==1){
+                numContinousBlocks=2;
+            }
+        }
+
+        return stabledisks.size();
+    }
+
+     private int[][] makeStrategyDiagram(TYPE typeOfPcPlayer){
+
+        int[][] strategyDiagram={
+                 {99, -8, 8, 6, 6, 8, -8, 99},
+                 {-8,-24,-4,-3,-3,-4,-24, -8},
+                 { 8, -4, 7, 4, 4, 7, -4,  8},
+                 { 6, -3, 4, 0, 0, 4, -3,  6},
+                 { 6, -3, 4, 0, 0, 4, -3,  6},
+                 { 8, -4, 7, 4, 4, 7, -4,  8},
+                 {-8,-24,-4,-3,-3,-4,-24, -8},
+                 {99, -8, 8, 6, 6, 8, -8, 99},
+         };
+        //the corners
+         if(gameBoard.get(0).get(0).isFull()==true && gameBoard.get(0).get(0).giveType().equals(typeOfPcPlayer.name())){
+            strategyDiagram[0][1]*=-1;
+            strategyDiagram[1][0]*=-1;
+            strategyDiagram[1][1]*=-1;
+
+        }
+         if(gameBoard.get(0).get(7).isFull()==true && gameBoard.get(0).get(7).giveType().equals(typeOfPcPlayer.name())){
+             strategyDiagram[0][6]*=-1;
+             strategyDiagram[1][6]*=-1;
+             strategyDiagram[1][7]*=-1;
+
+         }
+         if(gameBoard.get(7).get(0).isFull()==true && gameBoard.get(7).get(0).giveType().equals(typeOfPcPlayer.name())){
+             strategyDiagram[7][1]*=-1;
+             strategyDiagram[6][0]*=-1;
+             strategyDiagram[6][1]*=-1;
+
+         }
+         if(gameBoard.get(7).get(7).isFull()==true && gameBoard.get(7).get(7).giveType().equals(typeOfPcPlayer.name())){
+             strategyDiagram[7][6]*=-1;
+             strategyDiagram[6][6]*=-1;
+             strategyDiagram[6][7]*=-1;
+
+         }
+
+         //top edge
+         int numMyFull=0;
+         for(int i=0; i<8; i++){
+             if(gameBoard.get(0).get(i).isFull()==true&&gameBoard.get(0).get(i).giveType().equals(typeOfPcPlayer.name())){
+                 numMyFull++;
+                 continue;
+             }
+         }
+         if(numMyFull==SIZE){
+             strategyDiagram[0][1]=8;
+             strategyDiagram[0][7]=8;
+             for(int i=0; i<8; i++){
+                 if(strategyDiagram[1][i]==-24){
+                     strategyDiagram[1][i]=-7;
+                 }
+                 else if(strategyDiagram[1][i]<0){
+                     strategyDiagram[1][i]*=-1;
+                     continue;
+                 }
+             }
+         }
+
+         //right edge
+         numMyFull=0;
+         for(int i=0; i<8; i++){
+             if(gameBoard.get(i).get(7).isFull()==true&&gameBoard.get(i).get(7).giveType().equals(typeOfPcPlayer.name())){
+                 numMyFull++;
+                 continue;
+             }
+         }
+         if(numMyFull==SIZE){
+             strategyDiagram[1][7]=8;
+             strategyDiagram[6][7]=8;
+             for(int i=0; i<8; i++){
+                 if(strategyDiagram[i][6]==-24){
+                     strategyDiagram[i][6]=-7;
+                 }
+                 else if(strategyDiagram[i][6]==-7){
+                     strategyDiagram[i][6]=8;
+                 }
+                 else if(i==0||i==6){
+                     strategyDiagram[i][6]=24;
+                 }
+                 else if(strategyDiagram[i][6]<0){
+                     strategyDiagram[i][6]*=-1;
+                     continue;
+                 }
+             }
+         }
+
+         //left edge
+         numMyFull=0;
+         for(int i=0; i<8; i++){
+             if(gameBoard.get(i).get(0).isFull()==true&&gameBoard.get(i).get(0).giveType().equals(typeOfPcPlayer.name())){
+                 numMyFull++;
+             }
+         }
+         if(numMyFull==SIZE){
+             for(int i=0; i<8; i++){
+                 if(strategyDiagram[i][0]==-24){
+                     strategyDiagram[i][0]=-7;
+                 }
+                 else if(strategyDiagram[i][0]==-7){
+                     strategyDiagram[i][0]=7;
+                 }
+                 else if(strategyDiagram[i][0]<0){
+                     strategyDiagram[i][0]*=-1;
+                     continue;
+                 }
+             }
+         }
+
+         //downside edge
+         numMyFull=0;
+         for(int i=0; i<8; i++){
+             if(gameBoard.get(7).get(i).isFull()==true&&gameBoard.get(7).get(i).giveType().equals(typeOfPcPlayer.name())){
+                 numMyFull++;
+                 continue;
+
+             }
+         }
+         if(numMyFull==SIZE){
+             for(int i=0; i<8; i++){
+                 if(strategyDiagram[7][i]==-24){
+                     strategyDiagram[7][i]=-7;
+                 }
+                 else if(strategyDiagram[7][i]==-7){
+                     strategyDiagram[7][i]=7;
+                 }
+                 else if(strategyDiagram[7][i]<0){
+                     strategyDiagram[7][i]*=-1;
+                     continue;
+                 }
+             }
+         }
+         return strategyDiagram;
+     }
 
      public int getHollowBlocks(){
          int hollowBlocks=0;
@@ -119,6 +392,30 @@ import java.util.ArrayList;
              }
          }
          return hollowBlocks;
+     }
+
+     public int getBlackDiskNum(){
+         int num=0;
+         for(int i=0; i<SIZE; i++){
+             for(int j=0; j<SIZE; j++){
+                 if(gameBoard.get(i).get(j).isFull()==true && gameBoard.get(i).get(j).giveType().equals(TYPE.BLACK)){
+                     num++;
+                 }
+             }
+         }
+         return num;
+     }
+
+     public int getWhiteDiskNum(){
+         int num=0;
+         for(int i=0; i<SIZE; i++){
+             for(int j=0; j<SIZE; j++){
+                 if(gameBoard.get(i).get(j).isFull()==true && gameBoard.get(i).get(j).giveType().equals(TYPE.WHITE)){
+                     num++;
+                 }
+             }
+         }
+         return num;
      }
 
      public ArrayList<ArrayList<Place>> getGameBoard(){
