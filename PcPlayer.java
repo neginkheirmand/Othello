@@ -7,23 +7,9 @@ public class PcPlayer extends Player {
 //    protected ArrayList<Place> movesAvailable;
 //    protected long timer;
 
-    static int shomarevurudi=0;
-
     public PcPlayer(TYPE pcPlayerType){
         super(pcPlayerType);
-
     }
-
-//    public ArrayList<Place> getMovesAvailable(){
-//    }
-//
-//    public TYPE getTypeOfPlayer(){
-//    }
-//
-//    public int nextMoveUpdate(Board gameBoard){
-//        movesAvailable=gameBoard.updateAvailableMoves(typeOfPlayer);
-//        return movesAvailable.size();
-//    }
 
     public void printInfo(){
         System.out.println("This is the info of Pc Player:\nTYPE of this player :"+typeOfPlayer.name()+"\nand has"+ movesAvailable.size()+"moves available to do");
@@ -33,40 +19,18 @@ public class PcPlayer extends Player {
         }
         System.out.println("\n\n");
     }
-//
-//    public boolean canAddDisk(int x, int y, Board othelloBoard){
-//        boolean canBePlaced=false;
-//        for(int i=0; i<movesAvailable.size(); i++){
-//            if(movesAvailable.get(i).getY()==y&&movesAvailable.get(i).getX()==x){
-//                return true;
-//            }
-//        }
-//        return false;
-//    }
-//      //we actually dont need this function but i dont know what to do with it
-
-//    public void addDisk(int x, int y, Board othelloBoard){
-//        othelloBoard.addDiskToBoard(x, y, this.typeOfPlayer);
-//        return;
-//    }
 
     public void decideNextMove(Board othelloBoard){
         if(movesAvailable.size()>1) {
             int index = decidePlace(othelloBoard);
-            System.out.println("i am going to choose the "+ index +" place in the movesAvailable arrayList :");
             movesAvailable.get(index).printInfo();
-            System.out.println("that was the info about that block");
-
             addDisk(movesAvailable.get(index).getX(), movesAvailable.get(index).getY(), othelloBoard);
-            shomarevurudi++;
             return;
         }
         else if(movesAvailable.size()==1){
             addDisk(movesAvailable.get(0).getX(),movesAvailable.get(0).getY(), othelloBoard);
-            shomarevurudi++;
             return;
         }
-        shomarevurudi++;
         System.out.println("PASS");
         return;
     }

@@ -1,5 +1,6 @@
 package ir.ac.aut;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -9,12 +10,8 @@ public class Run {
 
     public Run(){
         int[] typeInfo=startMenu();
-        if(typeInfo[2]==2) {
-            //unicode version
-            myOthelloBoard = new Board(true);
-        }else{
-            myOthelloBoard = new Board(false);
-        }
+        myOthelloBoard = new Board();
+
         if(typeInfo[1]==1){
             user= new Player(TYPE.WHITE);
         }else{
@@ -91,7 +88,6 @@ public class Run {
                     aiOpponent.nextMoveUpdate(myOthelloBoard);
                     myOthelloBoard.printBoard(aiOpponent.getMovesAvailable(), aiOpponent.getTypeOfPlayer());
                     aiOpponent.decideNextMove(myOthelloBoard);
-                    myOthelloBoard.printStableDisks(TYPE.BLACK);
 
                 } else {
                     System.out.println("White cannot play\n      PASS");
@@ -105,7 +101,6 @@ public class Run {
                     aiOpponent.nextMoveUpdate(myOthelloBoard);
                     myOthelloBoard.printBoard(aiOpponent.getMovesAvailable(), aiOpponent.getTypeOfPlayer());
                     aiOpponent.decideNextMove(myOthelloBoard);
-                    myOthelloBoard.printStableDisks(TYPE.BLACK);
 
                 } else {
                     System.out.println("Black cannot play\n      PASS");
@@ -131,10 +126,8 @@ public class Run {
     }
 
     private void runAgainstHuman(){
-        Player humanOpponent=new Player(TYPE.getOtherTYPE( user.getTypeOfPlayer() ));
-
-        if (user.getTypeOfPlayer().name().equals(TYPE.BLACK.name())) {
-            //the user shall begin the game
+        user= new Player(TYPE.BLACK);
+        Player humanOpponent=new Player(TYPE.WHITE);
             while(myOthelloBoard.gameEnd()==false) {
                 if (user.nextMoveUpdate(myOthelloBoard) != 0) {
                     System.out.printf("TURN OF BLACK: \n");
@@ -151,36 +144,11 @@ public class Run {
                     System.out.println("TURN OF WHITE:");
                     myOthelloBoard.printBoard(humanOpponent.getMovesAvailable(), humanOpponent.getTypeOfPlayer());
                     int[] input = inputFromHuman(humanOpponent);
-                    humanOpponent.addDisk(input[0], input[0], myOthelloBoard);
-                } else {
-                    System.out.println("White cannot play\nPASS");
-                }
-            }
-        }
-        else{
-            while(myOthelloBoard.gameEnd()==false) {
-                if (humanOpponent.nextMoveUpdate(myOthelloBoard) != 0) {
-                    System.out.printf("TURN OF BLACK: \n");
-                    myOthelloBoard.printBoard(humanOpponent.getMovesAvailable(), humanOpponent.getTypeOfPlayer());
-                    int[] input = inputFromHuman(humanOpponent);
                     humanOpponent.addDisk(input[0], input[1], myOthelloBoard);
                 } else {
-                    System.out.println("Black cannot play\nPASS");
-                }
-
-                //--
-
-                if (user.nextMoveUpdate(myOthelloBoard) != 0) {
-                    System.out.println("TURN OF WHITE:");
-                    myOthelloBoard.printBoard(user.getMovesAvailable(), user.getTypeOfPlayer());
-                    int[] input = inputFromHuman(user);
-                    user.addDisk(input[0], input[0], myOthelloBoard);
-                } else {
                     System.out.println("White cannot play\nPASS");
                 }
             }
-
-        }
         System.out.printf("----------------\nend of game--------------\n");
 
         myOthelloBoard.printBoard(new ArrayList<Place>(), user.getTypeOfPlayer());
@@ -205,7 +173,7 @@ public class Run {
 
         System.out.println("\033[0;35m"+"do you want to be the black player or the white player?");
         System.out.println("1) "+"\033[1;37m"+"White Player");
-        System.out.println("\033[0;35m"+"1)"+"\033[0;31m"+" Black Player"+"\033[0m");
+        System.out.println("\033[0;35m"+"2)"+"\033[0;31m"+" Black Player"+"\033[0m");
         input = wait.nextInt();
         while(input!=1 && input!=2){
             System.out.println("Enter a valid number");
@@ -214,25 +182,14 @@ public class Run {
         inputContainer[1]=input;
         // inputContainer[1] = player's color
 
-        System.out.println("\033[0;35m"+"how do you want your disk:");
-        System.out.printf("1) ");
+        System.out.println("\033[0;35m"+"YOUR DISKS WILL LOOK LIKE:");
         if(input==1){
             //the user has choosen white player
-            System.out.println("\033[1;37m"+"\u2022");
-            System.out.println("\033[0;35m"+"2) "+"\033[1;37m"+"O");
+            System.out.println("\033[1;37m"+"O");
         }else{
             //the user has chosen black player
-            System.out.println("\033[0;31m"+"\u2022");
-            System.out.println("\033[0;35m"+"2) "+"\033[0;31m"+"O");
+            System.out.println("\033[0;31m"+"O");
         }
-        input=wait.nextInt();
-        while (input!=1 && input!=2){
-            System.out.println("enter a valid number");
-            input=wait.nextInt();
-        }
-        inputContainer[2]=input;
-        // inputContainer[1] = kind of disk
-
         return inputContainer;
     }
 

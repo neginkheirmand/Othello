@@ -2,12 +2,25 @@
 
 import java.util.ArrayList;
 
+ /**
+  * This is a model class to hold board information
+  *
+  * @author negin
+  * @version 1.0
+  */
+
  public class Board {
+
+     //the game board
     private ArrayList<ArrayList<Place>> gameBoard;
+
+    //the size of the board
     private final int SIZE;
-    private boolean uniCode;
-    public Board(boolean uniCode){
-        this.uniCode=uniCode;
+
+    /**
+     * constructor of the class Board
+     * */
+    public Board(){
         SIZE=8;
         gameBoard=new ArrayList<ArrayList<Place>>();
         for(int i=0; i<SIZE; i++){
@@ -22,6 +35,11 @@ import java.util.ArrayList;
         gameBoard.get(4).get(3).fillBlock(TYPE.BLACK);
     }
 
+     /**
+      *
+      * @param typeOfPlayer is the TYPE of player witch we have to get the point of, trough this method
+      * @return the point given to this player
+      */
     public int getPoint(TYPE typeOfPlayer){
         int diagramPointThis[][]=makeStrategyDiagram(typeOfPlayer);
         int diagramPointOpp[][]=makeStrategyDiagram(TYPE.getOtherTYPE(typeOfPlayer));
@@ -44,6 +62,13 @@ import java.util.ArrayList;
          return point+(getNumStableDisks(typeOfPlayer)*2)-(getNumStableDisks(TYPE.getOtherTYPE(typeOfPlayer))*2);
     }
 
+     /**
+      * a method to search in an array of Places and checking if a place with x and y exist on it
+      * @param stables
+      * @param x
+      * @param y
+      * @return true if a place with x and y exist in the array, false if else
+      */
     private boolean existsInArray(ArrayList<Place> stables, int x, int y){
         for(int i=0; i<stables.size(); i++){
             if(x==stables.get(i).getX() && y==stables.get(i).getY()){
@@ -53,154 +78,11 @@ import java.util.ArrayList;
         return false;
     }
 
-    public void printStableDisks(TYPE typeOfPlayer){
-         ArrayList<Place> stabledisks=new ArrayList<>();
-
-         //up-left
-         int numContinousBlocks=0;
-         //first line
-         for(int i=0; i<SIZE; i++){
-             if(gameBoard.get(0).get(i).giveType().equals(typeOfPlayer.name())){
-                 numContinousBlocks++;
-                 stabledisks.add(gameBoard.get(0).get(i));
-             }else{
-                 break;
-             }
-         }
-         //other lines
-         for(int i=1; i<SIZE; i++){
-             int numNextLineContinousBlocks=0;
-             for(int j=0; j<numContinousBlocks-1;j++){
-                 if(gameBoard.get(i).get(j).giveType().equals(typeOfPlayer.name())){
-                     if(existsInArray(stabledisks, j, i)==false){
-                         stabledisks.add(gameBoard.get(i).get(j));
-                     }
-                     numNextLineContinousBlocks++;
-                 }else{
-                     break;
-                 }
-             }
-             numContinousBlocks=numNextLineContinousBlocks;
-             if(numContinousBlocks==0){
-                 break;
-             }
-             else if(numContinousBlocks==1){
-                 numContinousBlocks=2;
-             }
-         }
-
-         //up-right
-         numContinousBlocks=0;
-         //first line
-         for(int i=SIZE-1; i>=0; i--){
-             if(gameBoard.get(0).get(i).giveType().equals(typeOfPlayer.name())){
-                 numContinousBlocks++;
-                 if(existsInArray(stabledisks, i, 0)==false) {
-                     stabledisks.add(gameBoard.get(0).get(i));
-                 }
-             }else{
-                 break;
-             }
-         }
-         //other lines
-         for(int i=0; i<SIZE; i++){
-             int numNextLineContinousBlocks=0;
-             for(int j=SIZE-1; (SIZE-j)<numContinousBlocks-1;j--){
-                 if(gameBoard.get(i).get(j).giveType().equals(typeOfPlayer.name())){
-                     if(existsInArray(stabledisks, j, i)==false){
-                         stabledisks.add(gameBoard.get(i).get(j));
-                     }
-                     numNextLineContinousBlocks++;
-                 }else{
-                     break;
-                 }
-             }
-             numContinousBlocks=numNextLineContinousBlocks;
-             if(numContinousBlocks==0){
-                 break;
-             }
-             else if(numContinousBlocks==1){
-                 numContinousBlocks=2;
-             }
-         }
-
-         //down-right
-         numContinousBlocks=0;
-         //first line
-         for(int i=SIZE-1; i>=0; i--){
-             if(gameBoard.get(7).get(i).giveType().equals(typeOfPlayer.name())){
-                 numContinousBlocks++;
-                 if(existsInArray(stabledisks, i, 7)==false) {
-                     stabledisks.add(gameBoard.get(7).get(i));
-                 }
-             }else{
-                 break;
-             }
-         }
-         //other lines
-         for(int i=SIZE-1; i>=0; i--){
-             int numNextLineContinousBlocks=0;
-             for(int j=SIZE-1; (SIZE-j)<numContinousBlocks-1;j--){
-                 if(gameBoard.get(i).get(j).giveType().equals(typeOfPlayer.name())){
-                     if(existsInArray(stabledisks, j, i)==false){
-                         stabledisks.add(gameBoard.get(i).get(j));
-                     }
-                     numNextLineContinousBlocks++;
-                 }else{
-                     break;
-                 }
-             }
-             numContinousBlocks=numNextLineContinousBlocks;
-             if(numContinousBlocks==0){
-                 break;
-             }
-             else if(numContinousBlocks==1){
-                 numContinousBlocks=2;
-             }
-         }
-
-         //down-left
-         numContinousBlocks=0;
-         //first line
-         for(int i=0; i<SIZE; i++){
-             if(gameBoard.get(7).get(i).giveType().equals(typeOfPlayer.name())){
-                 numContinousBlocks++;
-                 if(existsInArray(stabledisks, i, 7)==false) {
-                     stabledisks.add(gameBoard.get(7).get(i));
-                 }
-             }else{
-                 break;
-             }
-         }
-         //other lines
-         for(int i=SIZE-1; i>=0; i--){
-             int numNextLineContinousBlocks=0;
-             for(int j=0; j<numContinousBlocks-1;j++){
-                 if(gameBoard.get(i).get(j).giveType().equals(typeOfPlayer.name())){
-                     if(existsInArray(stabledisks, j, i)==false){
-                         stabledisks.add(gameBoard.get(i).get(j));
-                     }
-                     numNextLineContinousBlocks++;
-                 }else{
-                     break;
-                 }
-             }
-             numContinousBlocks=numNextLineContinousBlocks;
-             if(numContinousBlocks==0){
-                 break;
-             }
-             else if(numContinousBlocks==1){
-                 numContinousBlocks=2;
-             }
-         }
-
-         System.out.println("gonna print the stable disks of player "+ typeOfPlayer);
-         for(int i=0; i<stabledisks.size(); i++){
-             System.out.println(""+i+")  Y="+(stabledisks.get(i).getY()+1)+"  X="+ (X.valueOfInt(stabledisks.get(i).getX()))  );
-         }
-         System.out.println("that was all");
-     }
-
+     /**
+      * stable disks are disks that wont change color no matter what other disk you put on the board
+      * @param typeOfPlayer
+      * @return number of stable disks on the board of this player
+      */
     private int getNumStableDisks(TYPE typeOfPlayer){
         ArrayList<Place> stabledisks=new ArrayList<>();
 
@@ -345,6 +227,11 @@ import java.util.ArrayList;
         return stabledisks.size();
     }
 
+     /**
+      * a method to create an bidimensional array that represents the board and giving a number of point to each block
+      * @param typeOfPlayer
+      * @return the bidimensional array created in this method
+      */
      private int[][] makeStrategyDiagram(TYPE typeOfPlayer){
 
         int[][] strategyDiagram={
@@ -455,6 +342,11 @@ import java.util.ArrayList;
          return strategyDiagram;
      }
 
+     /**
+      * a method to go through the board and see what are the blocks available for playerType to move
+      * @param playerType
+      * @return the arraylist created in thid method which holds the next moves available
+      */
     public ArrayList<Place> updateAvailableMoves(TYPE playerType){
         ArrayList<Place> newMoves= new ArrayList<>();
         for(int i=0; i<SIZE; i++){
@@ -471,6 +363,13 @@ import java.util.ArrayList;
         return newMoves;
     }
 
+     /**
+      * a method to see if a place with x and y in the board is available to move for player with TYPE typePlayer
+      * @param y
+      * @param x
+      * @param typePlayer
+      * @return true if the player can move to this board
+      */
     private boolean canMoveTo(int y, int x, TYPE typePlayer){
     //X and Y passed to this method are from (0, SIZE-1)
 
@@ -639,6 +538,10 @@ import java.util.ArrayList;
         return false;
     }
 
+     /**
+      * go through the board and see if there is a move available for players to do
+      * @return true if there is no move available
+      */
     public boolean gameEnd(){
         //no moves available for the players
         if(updateAvailableMoves(TYPE.BLACK).size()==0 && updateAvailableMoves(TYPE.WHITE).size()==0){
@@ -647,6 +550,11 @@ import java.util.ArrayList;
         return false;
     }
 
+     /**
+      * a method to print the board
+      * @param movesAvailable to print those blocks with x in them
+      * @param playerTurn
+      */
     public void printBoard(ArrayList<Place> movesAvailable , TYPE playerTurn){
         System.out.printf("\033[1;36m"+"  ");
         for(int i=0; i<8; i++){
@@ -693,6 +601,13 @@ import java.util.ArrayList;
 
     }
 
+     /**
+      * a method to see if a place with x and y is a available block
+      * @param y
+      * @param x
+      * @param moves
+      * @return true if is available
+      */
     private boolean isMoveBlock(int y, int x, ArrayList<Place> moves){
         for(int i=0; i<moves.size(); i++){
             if(moves.get(i).getX()==x && moves.get(i).getY()==y){
@@ -703,6 +618,12 @@ import java.util.ArrayList;
         return false;
     }
 
+     /**
+      * a method to add a disk to the board
+      * @param x
+      * @param y
+      * @param typeOfPlayer
+      */
     public void addDiskToBoard(int x, int y, TYPE typeOfPlayer){
         gameBoard.get(y).get(x).fillBlock(typeOfPlayer);
         return;
