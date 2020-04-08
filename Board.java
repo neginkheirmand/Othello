@@ -619,32 +619,85 @@ import java.util.ArrayList;
     }
 
      /**
-      * a method to add a disk to the board
+      * a method for hollow a block o the board
       * @param x
       * @param y
-      * @param typeOfPlayer
       */
-    public void addDiskToBoard(int x, int y, TYPE typeOfPlayer){
-        gameBoard.get(y).get(x).fillBlock(typeOfPlayer);
-        return;
-    }
-
      public void hollowDiskOffBoard(int x, int y){
          gameBoard.get(y).get(x).hollow();
          return;
      }
 
-    public void addDiskToBoardAndUpdate(int x, int y, TYPE typeOfPlayer){
-        //we are sure that this player can move a disk to this block, it was checked before callling this method
+     /**
+      * a method for merging 2 arraylists
+      * @param array1
+      * @param array2
+      * @return
+      */
+     private ArrayList<Place> mergeArrayLists(ArrayList<Place> array1, ArrayList<Place> array2){
+        if(array1==null){
+            return array2;
+        }
+        if(array2==null){
+            return array1;
+        }
+        for(int i=0; i<array1.size(); i++){
+            array2.add(array1.get(i));
+        }
+        return array2;
+     }
+
+     /**
+      * a method for changing the color of the disks given to it by an arraylist
+      * @param changedBlocks the arraylist of the blocks that should change in color
+      */
+     public void changeDisksColor(ArrayList <Place> changedBlocks){
+        if(changedBlocks!=null) {
+            for (int i = 0; i < changedBlocks.size(); i++) {
+                gameBoard.get( changedBlocks.get(i).getY() ).get( changedBlocks.get(i).getX()  ).changeToType(changedBlocks.get(i).getType());
+            }
+        }
+        return;
+     }
+
+     /**
+      * a method for adding a disk in the board and the updating the board and finally returning the arraylist of the changed color blocks(for AI)
+      * @param x x of the block which should change in color
+      * @param y y of the block which should change in color
+      * @param typeOfPlayer TYPE of player adding the disk to the board
+      * @return ArrayList of the blocks changed in color
+      */
+     public ArrayList<Place> addDiskAndGetChangedDisks(int x, int y, TYPE typeOfPlayer){
+        ArrayList<Place> changedBlocks;
         gameBoard.get(y).get(x).fillBlock(typeOfPlayer);
-//        System.out.printf("just added a disk for player "+typeOfPlayer.name()+" now we have to update the othello board\n");
-        updateBoard(x, y, typeOfPlayer);
-//        System.out.printf("the othello board was updated:\n");
+        changedBlocks = updateBoard(x, y, typeOfPlayer, true);
+        return changedBlocks;
+     }
+
+     /**
+      * a method for adding disk and updating the board (for human player)
+      * @param x x of the block which should change in color
+      * @param y y of the block which should change in color
+      * @param typeOfPlayer TYPE of player adding the disk to the board
+      */
+     public void addDiskToBoardAndUpdate(int x, int y, TYPE typeOfPlayer){
+        //we are sure that this player can move a disk to this block, it was checked before calling this method
+        gameBoard.get(y).get(x).fillBlock(typeOfPlayer);
+        updateBoard(x, y, typeOfPlayer, false);
+        //we dont need the return type of this function
     }
 
-    private void updateBoard(int x, int y, TYPE typeOfPlayer){
+     /**
+      * a method for updating the board and returning an array list of the changed blocks
+      * @param x x of the block added to the board
+      * @param y y of the block added to the board
+      * @param typeOfPlayer
+      * @param needReturn if true, this method will return an arraylist of the changed blocks (true for ai)
+      * @return
+      */
+     private ArrayList<Place> updateBoard(int x, int y, TYPE typeOfPlayer, boolean needReturn){
 
-
+        ArrayList<Place> changedBlocks = new ArrayList<>();
         int numberOfBlocksToChange=0;
         //----------------------(Type of iteration: 1)
         //horizontally forward
@@ -659,7 +712,11 @@ import java.util.ArrayList;
                 } else {
                     //equal TYPEs
                     if(numberOfBlocksToChange>0){
-                        color(x, y, numberOfBlocksToChange,1);
+                        if(needReturn==true) {
+                            changedBlocks=mergeArrayLists(changedBlocks ,color(x, y, numberOfBlocksToChange, 1, true));
+                        }else{
+                             color(x, y, numberOfBlocksToChange, 1, needReturn);
+                        }
                     }
                     break;
                 }
@@ -680,7 +737,11 @@ import java.util.ArrayList;
                 }else {
                     //equal TYPEs
                     if(numberOfBlocksToChange>0){
-                        color(x-1-numberOfBlocksToChange, y, numberOfBlocksToChange, 1);
+                        if(needReturn==true) {
+                            changedBlocks=mergeArrayLists(changedBlocks ,color(x - 1 - numberOfBlocksToChange, y, numberOfBlocksToChange, 1, true));
+                        }else{
+                            color(x - 1 - numberOfBlocksToChange, y, numberOfBlocksToChange, 1, false);
+                        }
                     }
                     break;
                 }
@@ -700,7 +761,11 @@ import java.util.ArrayList;
                     numberOfBlocksToChange++;
                 } else {
                     if(numberOfBlocksToChange>0){
-                        color(x, y, numberOfBlocksToChange, 2);
+                        if(needReturn==true) {
+                            changedBlocks=mergeArrayLists(changedBlocks ,color(x, y, numberOfBlocksToChange, 2, true) );
+                        }else{
+                            color(x, y, numberOfBlocksToChange, 2, false);
+                        }
                     }
                     break;
                 }
@@ -719,7 +784,11 @@ import java.util.ArrayList;
                     numberOfBlocksToChange++;
                 } else {
                     if(numberOfBlocksToChange>0){
-                        color(x, y-1-numberOfBlocksToChange, numberOfBlocksToChange, 2);
+                        if(needReturn == true) {
+                            changedBlocks=mergeArrayLists(changedBlocks , color(x, y - 1 - numberOfBlocksToChange, numberOfBlocksToChange, 2, true) );
+                        }else{
+                            color(x, y - 1 - numberOfBlocksToChange, numberOfBlocksToChange, 2, false);
+                        }
                     }
                     break;
                 }
@@ -739,12 +808,17 @@ import java.util.ArrayList;
                     numberOfBlocksToChange++;
                 } else {
                     if(numberOfBlocksToChange>0){
-                        color(x, y, numberOfBlocksToChange, 3);
+                        if(needReturn==true) {
+                            changedBlocks=mergeArrayLists(changedBlocks , color(x, y, numberOfBlocksToChange, 3, true) );
+                        }else{
+                            color(x, y, numberOfBlocksToChange, 3, false);
+                        }
                     }
                     break;
                 }
             }
         }
+
         //daimeter backward(\)
         numberOfBlocksToChange=0;
         if(y>0&&x>0) {
@@ -757,7 +831,11 @@ import java.util.ArrayList;
                     numberOfBlocksToChange++;
                 } else {
                     if(numberOfBlocksToChange>0){
-                        color(x-1-numberOfBlocksToChange, y-1-numberOfBlocksToChange, numberOfBlocksToChange, 3);
+                        if(needReturn==true) {
+                            changedBlocks=mergeArrayLists(changedBlocks , color(x - 1 - numberOfBlocksToChange, y - 1 - numberOfBlocksToChange, numberOfBlocksToChange, 3, true) );
+                        }else{
+                            color(x - 1 - numberOfBlocksToChange, y - 1 - numberOfBlocksToChange, numberOfBlocksToChange, 3, false);
+                        }
                     }
                     break;
                 }
@@ -777,7 +855,11 @@ import java.util.ArrayList;
                     numberOfBlocksToChange++;
                 } else {
                     if(numberOfBlocksToChange>0){
-                        color(x-1-numberOfBlocksToChange, y+1+numberOfBlocksToChange, numberOfBlocksToChange, 4);
+                        if(needReturn==true) {
+                            changedBlocks=mergeArrayLists(changedBlocks , color(x - 1 - numberOfBlocksToChange, y + 1 + numberOfBlocksToChange, numberOfBlocksToChange, 4, true) );
+                        }else{
+                            color(x - 1 - numberOfBlocksToChange, y + 1 + numberOfBlocksToChange, numberOfBlocksToChange, 4, false);
+                        }
                     }
                     break;
                 }
@@ -796,57 +878,88 @@ import java.util.ArrayList;
                     numberOfBlocksToChange++;
                 } else {
                     if(numberOfBlocksToChange>0){
-                        color(x, y, numberOfBlocksToChange, 4);
+                        if(needReturn==true) {
+                            changedBlocks=mergeArrayLists(changedBlocks , color(x, y, numberOfBlocksToChange, 4, true) );
+                        }else{
+                            color(x, y, numberOfBlocksToChange, 4, false);
+                        }
                     }
                     break;
                 }
             }
         }
 
-        return;
+        if(needReturn==true){
+            return changedBlocks;
+        }
+        return null;
     }
 
-    private void color(int x1, int y1,int numBlocksToChange, int typeOfIteration ){
-        //the x1 is the argument x of the disk with type declared before and x2 is where it should end
+     /**
+      * a method for changing the color of the blocks while adding a new disk to the board and returning an array list of the changed blocks if needed
+      * @param x1 x of the starting point
+      * @param y1 y of the starting point
+      * @param numBlocksToChange number of blocks that should change
+      * @param typeOfIteration type of iteration
+      * @param needReturn if true will return an array list of the changed color blocks
+      * @return
+      */
+     private ArrayList<Place> color(int x1, int y1,int numBlocksToChange, int typeOfIteration, boolean needReturn){
+        ArrayList<Place> changedBlocks = new ArrayList<>();
 
-        //  <-->
+            //the x1 is the argument x of the disk with type declared before and x2 is where it should end
+
+            //  <-->
         if(typeOfIteration==1){
             for(int i=x1+1; i<x1+numBlocksToChange+1; i++){
+                if(needReturn == true){
+                    changedBlocks.add(new Place(i, y1, gameBoard.get(y1).get(i).getType()));
+                    //before changing the color of this disk we take note of what was its color before changing
+                }
                 gameBoard.get(y1).get(i).changeDisk();
-//                System.out.printf("*1*)changed the color of x= "+X.valueOfInt(i)+"  y="+(y1)+"\n");
             }
-            return;
+            return changedBlocks;
         }
 
         //  |
         else if(typeOfIteration==2){
             for(int j=y1+1 ; j<y1+1+numBlocksToChange; j++){
+                if(needReturn ==true){
+                    changedBlocks.add(new Place(x1, j, gameBoard.get(j).get(x1).getType()));
+                }
                 gameBoard.get(j).get(x1).changeDisk();
-//                System.out.printf("*2*)changed the color of x= "+X.valueOfInt(x1)+"  y="+(j+1)+"\n");
             }
-            return;
+            return changedBlocks;
         }
 
         //  \
         else if(typeOfIteration==3){
             for(int i=x1+1, j=y1+1; i<x1+1+numBlocksToChange; i++,j++) {
+                if(needReturn == true){
+                    changedBlocks.add(new Place(i, j, gameBoard.get(j).get(i).getType()));
+                }
                 gameBoard.get(j).get(i).changeDisk();
-//                System.out.printf("*3*)--- %d --changed the color of x= " + X.valueOfInt(i) + "  y=" + (j + 1) + "  NUMBER OF BLOCKS TO BE CHANGED: %d\n", i - x1, numBlocksToChange);
             }
-            return;
+            return changedBlocks;
         }
 
         //   /
         else if(typeOfIteration==4){
             for(int i=x1+1, j=y1-1; i<x1+1+numBlocksToChange; i++, j--){
+                if(needReturn == true){
+                    changedBlocks.add(new Place(i, j,gameBoard.get(j).get(i).getType()));
+                }
                 gameBoard.get(j).get(i).changeDisk();
-//                System.out.printf("*4*)changed the color of x= "+X.valueOfInt(i)+"  y="+(j+1)+"\n");
             }
-            return;
+            return changedBlocks;
         }
-        return;
+
+        return null;
     }
 
+     /**
+      * a method for printing information about the board used in the end of the game
+      */
     public void printInfo(){
         int numHollowBlocks=0;
         int numWhiteBlocks=0;
