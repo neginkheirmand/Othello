@@ -4,10 +4,23 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+
+/**
+ * This class is the Run class
+ * @author negin
+ * @version 1.0
+ */
 public class Run {
+    //the board in which the game is played
     private Board myOthelloBoard;
+
+    //the user which plays the game
     private Player user;
 
+    /**
+     * the constructor of this class
+     * this mehod is called in the Main class and excutes the game
+     */
     public Run(){
         int[] typeInfo=startMenu();
         myOthelloBoard = new Board();
@@ -26,6 +39,11 @@ public class Run {
         }
     }
 
+    /**
+     * a method for take in information from human players in each round
+     * @param playerTurn
+     * @return an array holding the information
+     */
     private int[] inputFromHuman(Player playerTurn){
         Scanner wait = new Scanner(System.in);
         String nextMovePlayer;
@@ -66,6 +84,9 @@ public class Run {
         return answer;
     }
 
+    /**
+     * a method for the ai version of the game
+     */
     private void runAgainstAI(){
         PcPlayer aiOpponent = new PcPlayer(TYPE.getOtherTYPE(user.typeOfPlayer));
 
@@ -85,7 +106,6 @@ public class Run {
 
                 if (aiOpponent.nextMoveUpdate(myOthelloBoard) != 0) {
                     System.out.println("TURN OF WHITE:");
-                    aiOpponent.nextMoveUpdate(myOthelloBoard);
                     myOthelloBoard.printBoard(aiOpponent.getMovesAvailable(), aiOpponent.getTypeOfPlayer());
                     aiOpponent.decideNextMove(myOthelloBoard);
 
@@ -125,6 +145,9 @@ public class Run {
 
     }
 
+    /**
+     * a method for the Human opponent version
+     */
     private void runAgainstHuman(){
         user= new Player(TYPE.BLACK);
         Player humanOpponent=new Player(TYPE.WHITE);
@@ -156,6 +179,10 @@ public class Run {
         System.exit(0);
     }
 
+    /**
+     * the menu method which will take in information about the printing way and the color of the user
+     * @return an array holding the information
+     */
     public static int[] startMenu(){
         int inputContainer[]=new int[3];
         Scanner wait=new Scanner(System.in);
