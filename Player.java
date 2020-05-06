@@ -52,7 +52,7 @@ public class Player {
      */
     public int nextMoveUpdate(Board gameBoard){
 //        System.out.println("updating the next moves for the player: "+this.typeOfPlayer);
-        movesAvailable=gameBoard.updateAvailableMoves(typeOfPlayer);
+        movesAvailable = gameBoard.updateAvailableMoves(typeOfPlayer);
         return movesAvailable.size();
     }
 

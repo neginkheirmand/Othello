@@ -118,7 +118,7 @@ public class PcPlayer extends Player {
                 if(temp<min){
                     min=temp;
                 }
-                if(passTurnBefore==true) {
+                if(passTurnBefore==false) {
                     if (alpha >= min) {
                         othelloBoard.changeDisksColor(changedBlocksContainer);
                         othelloBoard.hollowDiskOffBoard(movesForThisPlayer.get(i).getX(), movesForThisPlayer.get(i).getY());
