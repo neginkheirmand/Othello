@@ -30,3 +30,5 @@ using minimax i was able to go 7 levels deep in the game decision making tree an
 
 ![](https://github.com/neginkheirmand/Othello/blob/master/project%20description%20and%20examples/example_4.png?raw=true)
 
+
+download the project description [here](https://github.com/neginkheirmand/Othello/raw/master/project%20description%20and%20examples/projectDescription.pdf).
